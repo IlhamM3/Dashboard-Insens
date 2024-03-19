@@ -1,3 +1,4 @@
+import 'flowbite-datepicker';
 import './assets/main.css'
 
 import { createApp } from 'vue'

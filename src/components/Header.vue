@@ -1,7 +1,7 @@
 <template>
     <nav class="bg-gray-100 border-gray-200 dark:bg-gray-900 sm:ml-64">
         <div class="max-w-screen-xl flex items-center mx-auto p-4">
-            <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
+            <button id="buttonopen" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
                 aria-controls="default-sidebar" type="button"
                 class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span class="sr-only">Open sidebar</span>
@@ -23,6 +23,9 @@
                     </li>
                     <li>
                         <h3 id="waktu"></h3>
+                    </li>
+                    <li>
+                        <h3 id="baterai">{Indikator baterai}</h3>
                     </li>
                 </ul>
             </div>
@@ -56,6 +59,11 @@ export default {
         updateDate();
         setInterval(updateTime, 1000);
         setInterval(updateDate, 3600000);
+
+        const buttonopen = document.getElementById('buttonopen');
+        const target = document.getElementById('targetsidebar');
+
+
     }
 };
 </script>
