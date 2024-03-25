@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  datepicker:
+    specifier: ^0.0.0
+    version: 0.0.0
   flowbite:
     specifier: ^2.3.0
     version: 2.3.0
@@ -1012,6 +1015,10 @@ packages:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.0.0
     dev: true
+
+  /datepicker@0.0.0:
+    resolution: {integrity: sha512-fLU1tFECIBtQOWOyPVtDZU7y9Cha89ay8WfoZRVhiifPW5AHvxfLQHWnwwxtUi2TVYYI5GrpfI1C2P5Ei0bDdw==}
+    dev: false
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
