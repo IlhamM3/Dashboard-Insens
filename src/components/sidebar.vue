@@ -75,10 +75,10 @@ import { RouterLink } from 'vue-router'
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/logout"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
+                    <button @click="logout"
+                        class="w-full text-start flex p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </RouterLink>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -86,7 +86,22 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <script>
+import { mapActions } from 'pinia';
+import { d$auth } from '@/stores/auth';
 export default {
+    methods: {
+        ...mapActions(d$auth, ['a$logout']),
+        async logout() {
+            try {
+                await this.a$logout(),
+                    this.$router.replace({
+                        name: 'login'
+                    })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    },
     props: {
         isactive: Boolean,
         isactiveprox: Boolean,

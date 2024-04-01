@@ -1,3 +1,55 @@
+<script>
+import { dataliststore } from '@/stores/data'
+import { mapState, mapActions } from 'pinia'
+
+export default {
+    computed: {
+        ...mapState(dataliststore, ['getproxi'])
+    },
+    async mounted() {
+        await this.a$proxi()
+        this.logGetProxi()
+    },
+    updated() {
+        this.logGetProxi()
+    },
+    methods: {
+        ...mapActions(dataliststore, [
+            'a$proxi',
+        ]),
+        logGetProxi() {
+            const data = this.getproxi.data
+            const listproxi = document.getElementById('listproxi');
+            data.forEach(data => {
+                const timestamp = data.timestamp
+                const date = new Date(timestamp)
+                const hari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(date)
+                const jam = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2)
+                const tanggal = date.getDate().toString().padStart('0')
+                const bulan = (date.getMonth() + 1).toString().padStart('0')
+                const tahun = date.getFullYear()
+                const tanggalfull = `0${tanggal}/0${bulan}/${tahun}`
+                listproxi.innerHTML +=
+                    `<tr class="bg-white dark:bg-gray-800">
+                    <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        finished
+                    </th>
+                    <td class="px-3 py-4">
+                        ${hari}
+                    </td>
+                    <td class="px-3 py-4">
+                        ${tanggalfull}
+                    </td>
+                    <td class="px-3 py-4">
+                        ${jam}
+                    </td>
+                </tr>`
+            });
+        }
+    }
+}
+</script>
+
 <template>
     <h1 class="mb-5 text-2xl font-medium">Proximity</h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-md">
@@ -18,21 +70,8 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Finished
-                    </th>
-                    <td class="px-3 py-4">
-                        Kamis
-                    </td>
-                    <td class="px-3 py-4">
-                        18/05/2024
-                    </td>
-                    <td class="px-3 py-4">
-                        12:23:25
-                    </td>
-                </tr>
+            <tbody id="listproxi">
+
             </tbody>
         </table>
     </div>
@@ -45,13 +84,13 @@
                         <th scope="row" class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
                             Jumlah Cycle:
                         </th>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">
+                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcycle">
                             07
                         </td>
                         <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">
                             Jumlah Produk:
                         </td>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">
+                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">
                             28
                         </td>
                     </tr>
