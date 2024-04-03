@@ -1,5 +1,5 @@
 <script setup>
-import layoutpzem from './components/layoutpzem.vue'
+import layoutpzem from './components/pzem.vue'
 </script>
 <template>
     <div class="p-9 sm:ml-64 mt-28 md:mt-16">

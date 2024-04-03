@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 </script>
-
 <template>
     <nav class="fixed top-0 z-50 w-full bg-gray-100 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -34,11 +33,6 @@ import { RouterLink } from 'vue-router'
                                 <h3 id="waktu"
                                     class="p-1 font-medium text-white bg-blue-600 rounded-md shadow shadow-md"></h3>
                             </li>
-                            <li>
-                                <h3 id="baterai"
-                                    class="p-1 font-medium text-white bg-blue-600 rounded-md shadow shadow-md">
-                                    {baterai}</h3>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -51,34 +45,34 @@ import { RouterLink } from 'vue-router'
         <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <RouterLink to="/dashboard" :class="{ 'active': isactive }"
+                    <RouterLink to="/dashboard" :class="{ 'active': isactive }" @click="reload"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="ms-3">Dashboard</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/proximity" :class="{ 'active': isactiveprox }"
+                    <RouterLink to="/proximity" :class="{ 'active': isactiveprox }" @click="reload"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Proximity</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/pzem" :class="{ 'active': isactivepzem }"
+                    <RouterLink to="/pzem" :class="{ 'active': isactivepzem }" @click="reload"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Pzem</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/history" :class="{ 'active': isactivehis }"
+                    <RouterLink to="/history" :class="{ 'active': isactivehis }" @click="reload"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Histori</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/logout"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
+                    <button @click="logout"
+                        class="w-full text-start flex p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </RouterLink>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -86,14 +80,36 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import { d$auth } from '@/stores/auth';
 export default {
+    methods: {
+        ...mapActions(d$auth, ['a$logout']),
+        async logout() {
+            try {
+                await this.a$logout(),
+                    this.$router.replace({
+                        name: 'login'
+                    })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async reload() {
+            setInterval(() => {
+                window.location.reload()
+            }, 50);
+        }
+
+    },
     props: {
         isactive: Boolean,
         isactiveprox: Boolean,
         isactivepzem: Boolean,
         isactivehis: Boolean
     },
-    mounted() {
+    async mounted() {
+        //nav indikator
         const opensidebar = document.getElementById('buttonnavbar');
         const targetsidebar = document.getElementById('sidebar');
         opensidebar.addEventListener('click', (event) => {

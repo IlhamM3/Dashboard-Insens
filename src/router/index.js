@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
-import Konfigurasiview from '@/views/Konfigurasiview.vue'
+// import Konfigurasiview from '@/views/Konfigurasiview.vue'
+import ServerView from '@/views/ServerView.vue'
+// import wifiView from '@/views/WifiView.vue'
 
 import NotFoundView from '@/views/NotFoundView.vue'
-import ServerView from '@/views/ServerView.vue'
-import wifiView from '@/views/WifiView.vue'
 
 import DashboardView from '@/views/DashboardView.vue'
 import ProximityView from '@/views/ProximityView.vue'
 import HistoriView from '@/views/HistoriView.vue'
 import PzemView from '@/views/PzemView.vue'
+
+import { d$auth } from '@/stores/auth'
+import { getCookies } from '@/plugins/cookies'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,19 +27,19 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    // {
+    //   path: '/konfigurasi',
+    //   name: 'konfigurasi',
+    //   component: Konfigurasiview
+    // },
+    // {
+    //   path: '/konfigurasi/wifi',
+    //   name: 'konfigurasiwifi',
+    //   component: wifiView
+    // },
     {
-      path: '/konfigurasi',
-      name: 'konfigurasi',
-      component: Konfigurasiview
-    },
-    {
-      path: '/konfigurasi/wifi',
-      name: 'konfigurasiwifi',
-      component: wifiView
-    },
-    {
-      path: '/konfigurasi/server',
-      name: 'konfigurasiserver',
+      path: '/signup',
+      name: 'signup',
       component: ServerView
     },
     {
@@ -47,29 +50,42 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: DashboardView
+      component: DashboardView,
+      meta: { auth: true }
     },
     {
       path: '/proximity',
       name: 'proximity',
-      component: ProximityView
+      component: ProximityView,
+      meta: { auth: true }
     },
     {
       path: '/pzem',
       name: 'pzem',
-      component: PzemView
+      component: PzemView,
+      meta: { auth: true }
     },
     {
       path: '/history',
       name: 'History',
-      component: HistoriView
-    },
-    {
-      path: '/logout',
-      name: 'logout',
-      redirect: '/'
+      component: HistoriView,
+      meta: { auth: true }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const token = getCookies('CERT');
+  const loggedIn = d$auth().isLoggedIn;
+  if (!token && to.meta.auth && !loggedIn) {
+    next({ name: 'login' });
+  } else if (to.name == 'login' && token) {
+    next({ name: 'dashboard' })
+  } else {
+    // Otherwise, allow navigation to proceed
+    next();
+  }
+});
+
 
 export default router

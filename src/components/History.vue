@@ -1,9 +1,9 @@
 <script setup>
 import prox from './components/prox.vue';
-import pzem from './components/layoutpzem.vue';
+import pzem from './components/pzem.vue';
 </script>
 <template>
-    <div class="p-9 sm:ml-64 mt-28 md:mt-16">
+    <div class="p-9 sm:ml-64 my-28 md:my-16">
         <section class="flex items-center gap-x-5">
             <form>
                 <div class="relative">
@@ -70,3 +70,4 @@ export default {
     }
 }
 </script>
+./components/prox.js
