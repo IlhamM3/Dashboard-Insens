@@ -1,3 +1,6 @@
+<script setup>
+import baterai from '@/components/components/baterai.vue'
+</script>
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
@@ -27,6 +30,29 @@ export default {
             this.logGetdatadash()
         },
         logGetdatadash() {
+            const messager = this.getpzemr1.message
+            const messages = this.getpzems1.message
+            const messaget = this.getpzemt1.message
+
+            let selectedMessage;
+            if (messager) {
+                selectedMessage = messager;
+            } else if (messages) {
+                selectedMessage = messages;
+            } else if (messaget) {
+                selectedMessage = messaget;
+            }
+            if (selectedMessage) {
+                const infoalatpzemdash = document.getElementById('infoalatpzemdash');
+                infoalatpzemdash.innerHTML = selectedMessage;
+                if (selectedMessage === 'Alat: ON') {
+                    infoalatpzemdash.classList.add('bg-green-500')
+                    infoalatpzemdash.classList.remove('bg-gray-600')
+                } else {
+                    infoalatpzemdash.classList.add('bg-gray-600')
+                    infoalatpzemdash.classList.remove('bg-green-500')
+                }
+            }
             const dashdatar1 = this.getpzemr1.data
             const dashdatas1 = this.getpzems1.data
             const dashdatat1 = this.getpzemt1.data
@@ -165,7 +191,10 @@ export default {
 <template>
     <div class="p-4 sm:ml-64 mt-28 md:mt-16">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <h1 class="font-medium text-2xl mb-5">Proximity</h1>
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="font-medium text-2xl">Proximity</h1>
+                <baterai />
+            </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-md">
                 <table class="w-full font-medium text-md text-left rtl:text-right text-gray-900 dark:text-gray-400">
                     <thead class="text-md text-gray-900 bg-gray-100 uppercase dark:text-gray-400">
@@ -191,7 +220,11 @@ export default {
                     </div>
                 </div>
             </div>
-            <h1 class="my-5 text-2xl font-medium">PZEM</h1>
+            <div class="flex items-center justify-between my-6">
+                <h1 class="text-2xl font-medium">Pzem</h1>
+                <div id="infoalatpzemdash" class="p-1 px-2 font-medium text-white rounded-md shadow shadow-md">
+                </div>
+            </div>
             <div class="flex flex-wrap items-center justify-center gap-4 mb-4 md:grid md:grid-cols-3">
                 <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
                     <div class="relative justify-center overflow-x-auto">

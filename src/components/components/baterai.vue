@@ -1,7 +1,7 @@
 <template>
-    <h3 id="baterai" class="hidden py-1 px-2 text-center font-medium text-gray-900 rounded-md shadow shadow-md">
+    <h3 id="baterai" class="hidden p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md">
     </h3>
-    <div id="notfoundb" class="p-1 text-center font-medium text-gray-900 rounded-md shadow shadow-md">Not found
+    <div id="infobaterai" class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
     </div>
 </template>
 <script>
@@ -20,16 +20,16 @@ export default {
         indikatorbaterai() {
             const data = this.getbaterai.data
             const baterai = document.getElementById('baterai');
-            const notfoundb = document.getElementById('notfoundb');
+            const infobaterai = document.getElementById('infobaterai');
             baterai.innerHTML = ''
             const bateraiindikator = []
             if (data === 'Baterai is off') {
-                notfoundb.innerHTML = 'Alat: Off'
-                notfoundb.classList.remove('hidden')
+                infobaterai.innerHTML = 'Alat: Off'
+                infobaterai.classList.remove('hidden')
                 baterai.classList.add('hidden')
             } else {
                 baterai.classList.remove('hidden')
-                notfoundb.classList.add('hidden')
+                infobaterai.classList.add('hidden')
                 const timestamp = data.createdAt;
                 if (!bateraiindikator.includes(timestamp)) {
                     bateraiindikator.push(timestamp);

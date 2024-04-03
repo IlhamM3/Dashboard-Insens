@@ -25,12 +25,22 @@ export default {
         logGetpzemr() {
             const inputdatar = document.getElementById('pzemr')
             const notfound = document.getElementById('notfoundr')
+            const message = this.getpzemr.message;
             const data = this.getpzemr.data
             inputdatar.innerHTML = ''
             if (data.length > 0) {
                 notfound.classList.add('hidden')
                 const pzemrdata = []
                 data.forEach(data => {
+                    const infoalatpzem = document.getElementById('infoalatpzem')
+                    infoalatpzem.innerHTML = `${message}`;
+                    if (message === 'Alat: ON') {
+                        infoalatpzem.classList.add('bg-green-500')
+                        infoalatpzem.classList.remove('bg-gray-600')
+                    } else {
+                        infoalatpzem.classList.add('bg-gray-600')
+                        infoalatpzem.classList.remove('bg-green-500')
+                    }
                     const timestamp = data.timestamp;
                     if (!pzemrdata.includes(timestamp)) {
                         pzemrdata.push(timestamp);

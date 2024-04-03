@@ -5,7 +5,11 @@ import pzemt from '@/components/base/pzemt.vue'
 </script>
 
 <template>
-    <h1 class="mb-5 text-2xl font-medium">PZEM</h1>
+    <div class="flex items-center justify-between mb-5">
+        <h1 class="text-2xl font-medium">Pzem</h1>
+        <div id="infoalatpzem" class="p-1 px-2 font-medium text-white rounded-md shadow shadow-md">
+        </div>
+    </div>
     <div class="flex flex-wrap items-start justify-center gap-4 mb-4 md:grid md:grid-cols-3">
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <div class="relative justify-center overflow-x-auto">

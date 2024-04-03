@@ -1,5 +1,6 @@
 <script setup>
 import baseprox from '@/components/base/baseprox.vue'
+import baterai from '@/components/components/baterai.vue'
 </script>
 <script>
 import { dataliststore } from '@/stores/data'
@@ -70,7 +71,10 @@ export default {
 </script>
 
 <template>
-    <h1 class="mb-5 text-2xl font-medium">Proximity</h1>
+    <div class="flex items-center justify-between mb-5">
+        <h1 class=" text-2xl font-medium">Proximity</h1>
+        <baterai />
+    </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-md">
         <table class="w-full text-sm font-medium text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead class="text-gray-900 uppercase bg-gray-100 text-md dark:text-gray-400">

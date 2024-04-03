@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import baterai from '@/components/components/baterai.vue'
 </script>
 <template>
     <nav class="fixed top-0 z-50 w-full bg-gray-100 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -33,9 +32,6 @@ import baterai from '@/components/components/baterai.vue'
                             <li>
                                 <h3 id="waktu"
                                     class="p-1 font-medium text-white bg-blue-600 rounded-md shadow shadow-md"></h3>
-                            </li>
-                            <li>
-                                <baterai />
                             </li>
                         </ul>
                     </div>
