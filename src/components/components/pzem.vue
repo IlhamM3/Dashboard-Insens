@@ -1,6 +1,12 @@
+<script setup>
+import pzemr from '@/components/base/pzemr.vue'
+import pzems from '@/components/base/pzems.vue'
+import pzemt from '@/components/base/pzemt.vue'
+</script>
+
 <template>
     <h1 class="mb-5 text-2xl font-medium">PZEM</h1>
-    <div class="flex flex-wrap items-center justify-center gap-4 mb-4 md:grid md:grid-cols-3">
+    <div class="flex flex-wrap items-start justify-center gap-4 mb-4 md:grid md:grid-cols-3">
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <div class="relative justify-center overflow-x-auto">
                 <h1 class="text-lg font-bold text-center">R</h1>
@@ -22,24 +28,13 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="bg-white dark:bg-gray-800">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                0.00
-                            </th>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                        </tr>
-                    </tbody>
+                    <pzemr />
                 </table>
+                <div id="notfoundr">
+                    <div class="text-center p-2 bg-white font-semibold">
+                        Belum ada produksi untuk hari ini
+                    </div>
+                </div>
             </div>
         </div>
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
@@ -63,24 +58,13 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="bg-white dark:bg-gray-800">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                0.00
-                            </th>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                        </tr>
-                    </tbody>
+                    <pzems />
                 </table>
+                <div id="notfounds">
+                    <div class="text-center p-2 bg-white font-semibold">
+                        Belum ada produksi untuk hari ini
+                    </div>
+                </div>
             </div>
         </div>
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
@@ -104,24 +88,13 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="bg-white dark:bg-gray-800">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                0.00
-                            </th>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                            <td class="px-6 py-4">
-                                0.00
-                            </td>
-                        </tr>
-                    </tbody>
+                    <pzemt />
                 </table>
+                <div id="notfoundt">
+                    <div class="text-center p-2 bg-white font-semibold">
+                        Belum ada produksi untuk hari ini
+                    </div>
+                </div>
             </div>
         </div>
     </div>
