@@ -11,9 +11,6 @@ export default {
     },
     async mounted() {
         await this.fetchdash()
-        setInterval(() => {
-            this.fetchdash()
-        }, 5000);
     },
     updated() {
         this.logGetdatadash()
@@ -33,7 +30,6 @@ export default {
             const messager = this.getpzemr1.message
             const messages = this.getpzems1.message
             const messaget = this.getpzemt1.message
-            console.log(messaget)
 
             let selectedMessage = ''
             if (messager === 'Alat: ON' || messages === 'Alat: ON' || messaget === 'Alat: ON') {

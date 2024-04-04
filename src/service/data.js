@@ -29,7 +29,6 @@ function updateSelectedDate() {
         historiprox1();
     }
 }
-setInterval(updateSelectedDate, 50);
 
 // Fungsi untuk memanggil API dengan tanggal yang dipilih
 const historipzemr = () => baseApi.get(`${api}/pzemrHistory?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);

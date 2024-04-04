@@ -13,9 +13,6 @@ export default {
     },
     async mounted() {
         await this.fetchhistoripzems()
-        setInterval(() => {
-            this.fetchhistoripzems()
-        }, 5000);
     },
     updated() {
         this.logGethistoripzems()

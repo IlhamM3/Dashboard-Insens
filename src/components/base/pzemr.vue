@@ -7,9 +7,6 @@ export default {
     },
     async mounted() {
         await this.fetchpzemr()
-        setInterval(() => {
-            this.fetchpzemr()
-        }, 5000);
     },
     updated() {
         this.logGetpzemr()

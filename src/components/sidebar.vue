@@ -70,7 +70,7 @@ import { RouterLink } from 'vue-router'
                 </li>
                 <li>
                     <button @click="logout"
-                        class="w-full text-start flex p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
+                        class="flex w-full p-2 text-gray-900 rounded-lg text-start dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
                     </button>
                 </li>

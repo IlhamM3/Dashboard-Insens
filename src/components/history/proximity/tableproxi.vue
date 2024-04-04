@@ -13,9 +13,6 @@ export default {
     },
     async mounted() {
         await this.fetchhistoriproxi();
-        setInterval(() => {
-            this.fetchhistoriproxi()
-        }, 5000);
     },
     methods: {
         ...mapActions(dataliststore, ['a$historiprox']),
