@@ -1,7 +1,3 @@
-<script setup>
-import prox from './components/prox.vue';
-import pzem from './components/pzem.vue';
-</script>
 <template>
     <div class="p-9 sm:ml-64 my-28 md:my-16">
         <section class="flex items-center gap-x-5">
@@ -23,16 +19,9 @@ import pzem from './components/pzem.vue';
             </form>
 
             <div class="relative max-w-sm">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                    </svg>
-                </div>
-                <input id="datepicker" type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Select date">
+                <input type="date" id="selectplace"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    v-model="valueDate">
             </div>
         </section>
 
@@ -46,10 +35,31 @@ import pzem from './components/pzem.vue';
 </template>
 
 <script>
-import Datepicker from 'flowbite-datepicker/Datepicker';
-
+import prox from '@/components/history/proximity/prox.vue'
+import pzem from '@/components/history/pzem/pzem.vue'
 export default {
+    components: {
+        prox,
+        pzem
+    },
+    data() {
+        return {
+            valueDate: ''
+        }
+    },
+    watch: {
+        valueDate(newvalue) {
+            sessionStorage.setItem('tanggal', newvalue)
+            sessionStorage.setItem('checkReload', 'true');
+        }
+    },
     mounted() {
+        window.onload = function () {
+            if (sessionStorage.getItem('checkReload') === 'true') {
+                sessionStorage.removeItem('tanggal');
+                sessionStorage.removeItem('checkReload');
+            }
+        }
         const dropdown = document.getElementById('dropdown');
         const pzem = document.getElementById('pzem');
         const prox = document.getElementById('prox');
@@ -64,9 +74,6 @@ export default {
                 prox.classList.toggle('hidden');
             }
         });
-
-        const datepicker = document.getElementById('datepicker');
-        new Datepicker(datepicker);
     }
 }
 </script>

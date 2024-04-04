@@ -1,42 +1,47 @@
+<template>
+    <tbody id="historipzemt">
+
+    </tbody>
+</template>
+
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
 export default {
     computed: {
-        ...mapState(dataliststore, ['getpzemt'])
+        ...mapState(dataliststore, ['gethistoripzemt'])
     },
     async mounted() {
-        await this.fetchpzemt()
+        await this.fetchhistoripzemt()
         setInterval(() => {
-            this.fetchpzemt()
+            this.fetchhistoripzemt()
         }, 5000);
     },
     updated() {
-        this.logGetpzemt()
+        this.logGethistoripzemt()
     },
     methods: {
         ...mapActions(dataliststore, [
-            'a$pzemt'
+            'a$historipzemt'
         ]),
-        async fetchpzemt() {
-            await this.a$pzemt()
-            this.logGetpzemt()
+        async fetchhistoripzemt() {
+            await this.a$historipzemt()
+            this.logGethistoripzemt()
         },
-        logGetpzemt() {
-            const inputdatat = document.getElementById('pzemt')
-            const notfound = document.getElementById('notfoundt')
-            const data = this.getpzemt.data
-            inputdatat.innerHTML = ''
+        logGethistoripzemt() {
+            const inputhistoridatat = document.getElementById('historipzemt')
+            const notfound = document.getElementById('notfoundhistorit')
+            const data = this.gethistoripzemt.data
+            inputhistoridatat.innerHTML = ''
             if (data.length > 0) {
                 notfound.classList.add('hidden')
-                const pzemtdata = []
+                const pzemthistoridata = []
                 data.forEach(data => {
-
                     const timestamp = data.timestamp;
-                    if (!pzemtdata.includes(timestamp)) {
-                        pzemtdata.push(timestamp);
+                    if (!pzemthistoridata.includes(timestamp)) {
+                        pzemthistoridata.push(timestamp);
                         const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'text-gray-900', 'text-center', 'dark:bg-gray-800');
+                        tr.className = 'bg-white text-gray-900 text-center  whitespace-nowrap dark:text-white dark:bg-gray-800';
                         tr.innerHTML +=
                             `<td
                                     class="px-6 py-4 ">
@@ -51,19 +56,14 @@ export default {
                                 <td class="px-6 py-4">
                                     ${data.frekuensi}
                                 </td>
-                            `
-                        inputdatat.appendChild(tr);
+                            `;
+                        inputhistoridatat.appendChild(tr);
                     }
                 });
+            } else {
+                notfound.classList.remove('hidden')
             }
         }
     }
-
 }
 </script>
-
-<template>
-    <tbody id="pzemt">
-
-    </tbody>
-</template>

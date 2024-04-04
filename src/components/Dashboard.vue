@@ -33,15 +33,15 @@ export default {
             const messager = this.getpzemr1.message
             const messages = this.getpzems1.message
             const messaget = this.getpzemt1.message
+            console.log(messaget)
 
-            let selectedMessage;
-            if (messager) {
-                selectedMessage = messager;
-            } else if (messages) {
-                selectedMessage = messages;
-            } else if (messaget) {
-                selectedMessage = messaget;
+            let selectedMessage = ''
+            if (messager === 'Alat: ON' || messages === 'Alat: ON' || messaget === 'Alat: ON') {
+                selectedMessage = 'Alat: ON';
+            } else if (messager === 'Alat: OFF' && messages === 'Alat: OFF' && messaget === 'Alat: OFF') {
+                selectedMessage = 'Alat: OFF'
             }
+
             if (selectedMessage) {
                 const infoalatpzemdash = document.getElementById('infoalatpzemdash');
                 infoalatpzemdash.innerHTML = selectedMessage;
@@ -192,12 +192,12 @@ export default {
     <div class="p-4 sm:ml-64 mt-28 md:mt-16">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div class="flex items-center justify-between mb-6">
-                <h1 class="font-medium text-2xl">Proximity</h1>
+                <h1 class="text-2xl font-medium">Proximity</h1>
                 <baterai />
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-md">
-                <table class="w-full font-medium text-md text-left rtl:text-right text-gray-900 dark:text-gray-400">
-                    <thead class="text-md text-gray-900 bg-gray-100 uppercase dark:text-gray-400">
+                <table class="w-full font-medium text-left text-gray-900 text-md rtl:text-right dark:text-gray-400">
+                    <thead class="text-gray-900 uppercase bg-gray-100 text-md dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-3 py-3">
                                 Cycle
@@ -215,7 +215,7 @@ export default {
                     </tbody>
                 </table>
                 <div id="notfoundp">
-                    <div class="text-center p-2 bg-white font-semibold">
+                    <div class="p-2 font-semibold text-center bg-white">
                         Belum ada produksi untuk hari ini
                     </div>
                 </div>
@@ -252,7 +252,7 @@ export default {
                             </tbody>
                         </table>
                         <div id="notfoundr">
-                            <div class="text-center p-2 bg-white font-semibold">
+                            <div class="p-2 font-semibold text-center bg-white">
                                 Belum ada produksi untuk hari ini
                             </div>
                         </div>
@@ -284,7 +284,7 @@ export default {
                             </tbody>
                         </table>
                         <div id="notfounds">
-                            <div class="text-center p-2 bg-white font-semibold">
+                            <div class="p-2 font-semibold text-center bg-white">
                                 Belum ada produksi untuk hari ini
                             </div>
                         </div>
@@ -316,7 +316,7 @@ export default {
                             </tbody>
                         </table>
                         <div id="notfoundt">
-                            <div class="text-center p-2 bg-white font-semibold">
+                            <div class="p-2 font-semibold text-center bg-white">
                                 Belum ada produksi untuk hari ini
                             </div>
                         </div>

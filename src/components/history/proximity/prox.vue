@@ -1,39 +1,35 @@
-<script setup>
-import baseprox from '@/components/base/baseprox.vue'
-import baterai from '@/components/components/baterai.vue'
-</script>
 <script>
+import tableprox from './tableproxi.vue';
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
+
 export default {
+    components: {
+        tableprox,
+    },
     computed: {
-        ...mapState(dataliststore, ['getproxi1'])
+        ...mapState(dataliststore, ['dataHistoriproxi1'])
     },
     async mounted() {
-        await this.fetchproxione()
+        await this.fetchhistoriproxione()
         setInterval(() => {
-            this.fetchproxione()
+            this.fetchhistoriproxione()
         }, 5000);
     },
-    updated() {
-        this.logGetProxione()
-    },
     methods: {
-        ...mapActions(dataliststore, [
-            'a$proxi1'
-        ]),
-        async fetchproxione() {
-            await this.a$proxi1()
-            this.logGetProxione()
+        ...mapActions(dataliststore, ['a$historiprox1']),
+        async fetchhistoriproxione() {
+            await this.a$historiprox1();
+            this.gethistoriproxi1();
         },
-        logGetProxione() {
-            // DATA UPDATE
-            const data1 = this.getproxi1.data
-            const jcycle = document.getElementById('jcycle')
-            const jproduk = document.getElementById('jproduk')
-            jcycle.innerHTML = ''
-            jproduk.innerHTML = ''
-            if (data1.length == 0) {
+        gethistoriproxi1() {
+            const data = this.dataHistoriproxi1.data;
+            const jcyclehistori = document.getElementById('jcyclehistori');
+            const jprodukhistori = document.getElementById('jprodukhistori');
+
+            jcyclehistori.innerHTML = ''
+            jprodukhistori.innerHTML = ''
+            if (data.length == 0) {
                 const tr = document.createElement('tr');
                 const td = document.createElement('tr');
                 tr.classList.add('bg-white', 'dark:bg-gray-800');
@@ -41,14 +37,14 @@ export default {
 
                 tr.innerHTML = `<p>0</p>`
                 td.innerHTML = `<p>0</p>`
-                jcycle.appendChild(tr)
-                jproduk.appendChild(td)
+                jcyclehistori.appendChild(tr)
+                jprodukhistori.appendChild(td)
             } else {
-                const DataProxijumlah = []
-                data1.forEach(data => {
+                const dataproxijumlahhistori = []
+                data.forEach(data => {
                     const timestamp = data.timestamp;
-                    if (!DataProxijumlah.includes(timestamp)) {
-                        DataProxijumlah.push(timestamp);
+                    if (!dataproxijumlahhistori.includes(timestamp)) {
+                        dataproxijumlahhistori.push(timestamp);
                         const datacycle = data.cycle
                         const dataproduk = data.cycle * 4
 
@@ -56,13 +52,13 @@ export default {
                         tr.classList.add('bg-white', 'dark:bg-gray-800');
                         const td = document.createElement('tr');
                         td.classList.add('bg-white', 'dark:bg-gray-800');
+
                         // const dataproduk = datacycle * 4
                         tr.innerHTML = `<p>${datacycle}</p>`
                         td.innerHTML = `<p>${dataproduk}</p>`
-                        jcycle.appendChild(tr)
-                        jproduk.appendChild(td)
+                        jcyclehistori.appendChild(tr)
+                        jprodukhistori.appendChild(td)
                     }
-
                 });
             }
         }
@@ -71,10 +67,7 @@ export default {
 </script>
 
 <template>
-    <div class="flex items-center justify-between mb-5">
-        <h1 class=" text-2xl font-medium">Proximity</h1>
-        <baterai />
-    </div>
+    <h1 class="mb-5 text-2xl font-medium ">Proximity</h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-md">
         <table class="w-full text-sm font-medium text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead class="text-gray-900 uppercase bg-gray-100 text-md dark:text-gray-400">
@@ -93,16 +86,16 @@ export default {
                     </th>
                 </tr>
             </thead>
-            <baseprox />
+            <tableprox />
         </table>
-        <div id="notfoundp">
-            <div class="text-center p-2 bg-white font-semibold">
-                Belum ada produksi untuk hari ini
+        <div id="notfoundphistori">
+            <div class="p-2 font-semibold text-center bg-white">
+                Tidak memproduksi pada hari itu
             </div>
         </div>
     </div>
     <footer
-        class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white border border-gray-400 shadow dark:bg-gray-800 shadow-md ">
+        class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white rounded-lg shadow dark:bg-gray-800 shadow-md sm:rounded-lg">
         <div class="w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between">
             <table class="w-full text-left text-gray-500 text-md rtl:text-right dark:text-gray-400">
                 <tbody>
@@ -110,13 +103,13 @@ export default {
                         <th scope="row" class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
                             Jumlah Cycle:
                         </th>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcycle">
+                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcyclehistori">
 
                         </td>
                         <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">
                             Jumlah Produk:
                         </td>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">
+                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jprodukhistori">
 
                         </td>
                     </tr>

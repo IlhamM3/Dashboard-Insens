@@ -17,14 +17,20 @@ export const dataliststore = defineStore({
         datapzemt: [],
         datapzemt1: [],
 
-        databaterai: []
+        databaterai: [],
+
+        //History Data
+        dataHistoriproxi: [],
+        dataHistoriproxi1: [],
+        dataHistoripzemr: [],
+        dataHistoripzems: [],
+        dataHistoripzemt: []
     }),
     actions: {
         async a$proxi() {
             try {
                 const { data } = await s$data.proximity()
                 this.setProxi(data)
-
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -97,6 +103,66 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
+
+        // History API
+        async a$historiprox() {
+            try {
+                const { data } = await s$data.historiprox()
+                this.sethistoriprox(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$historiprox1() {
+            try {
+                const { data } = await s$data.historiprox1()
+                this.sethistoriprox1(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$historipzemr() {
+            try {
+                const { data } = await s$data.historipzemr()
+                this.sethistoripzemr(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$historipzems() {
+            try {
+                const { data } = await s$data.historipzems()
+                this.sethistoripzems(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$historipzemt() {
+            try {
+                const { data } = await s$data.historipzemt()
+                this.sethistoripzemt(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+
+        sethistoriprox(data) {
+            this.dataHistoriproxi = data
+        },
+        sethistoriprox1(data) {
+            this.dataHistoriproxi1 = data
+        },
+        sethistoripzemr(data) {
+            this.dataHistoripzemr = data
+        },
+        sethistoripzems(data) {
+            this.dataHistoripzems = data
+        },
+        sethistoripzemt(data) {
+            this.dataHistoripzemt = data
+        },
+
+
         // Mutations untuk memperbarui state
         setProxi(data) {
             this.dataproxi = data
@@ -144,5 +210,13 @@ export const dataliststore = defineStore({
         getpzemt1: (state) => state.datapzemt1,
 
         getbaterai: (state) => state.databaterai,
+
+        // Getter history APi
+
+        gethistoriprox: (state) => state.dataHistoriproxi,
+        gethistoriprox1: (state) => state.dataHistoriproxi1,
+        gethistoripzemr: (state) => state.dataHistoripzemr,
+        gethistoripzems: (state) => state.dataHistoripzems,
+        gethistoripzemt: (state) => state.dataHistoripzemt,
     }
 });

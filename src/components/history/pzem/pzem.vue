@@ -1,16 +1,21 @@
-<script setup>
-import pzemr from '@/components/base/pzemr.vue'
-import pzems from '@/components/base/pzems.vue'
-import pzemt from '@/components/base/pzemt.vue'
+<script>
+import pzemr from '../pzem/pzemr.vue'
+import pzems from '../pzem/pzems.vue'
+import pzemt from '../pzem/pzemt.vue'
+
+export default {
+    components: {
+        pzemr,
+        pzems,
+        pzemt
+    },
+}
 </script>
 
 <template>
-    <div class="flex items-center justify-between mb-5">
-        <h1 class="text-2xl font-medium">Pzem</h1>
-        <div id="infoalatpzem" class="p-1 px-2 font-medium text-white rounded-md shadow shadow-md">
-        </div>
-    </div>
+    <h1 class="mb-5 text-2xl font-medium">Pzem</h1>
     <div class="flex flex-wrap items-start justify-center gap-4 mb-4 md:grid md:grid-cols-3">
+        <!-- Component Pzemr -->
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <div class="relative justify-center overflow-x-auto">
                 <h1 class="text-lg font-bold text-center">R</h1>
@@ -34,13 +39,15 @@ import pzemt from '@/components/base/pzemt.vue'
                     </thead>
                     <pzemr />
                 </table>
-                <div id="notfoundr">
+                <div id="notfoundhistorir">
                     <div class="p-2 font-semibold text-center bg-white">
-                        Belum ada produksi untuk hari ini
+                        Tidak memproduksi pada hari itu
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Component Pzems -->
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <div class="relative overflow-x-auto">
                 <h1 class="text-lg font-bold text-center">S</h1>
@@ -64,13 +71,15 @@ import pzemt from '@/components/base/pzemt.vue'
                     </thead>
                     <pzems />
                 </table>
-                <div id="notfounds">
+                <div id="notfoundhistoris">
                     <div class="p-2 font-semibold text-center bg-white">
-                        Belum ada produksi untuk hari ini
+                        Tidak memproduksi pada hari itu
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Component Pzemt -->
         <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
             <div class="relative overflow-x-auto">
                 <h1 class="text-lg font-bold text-center">T</h1>
@@ -94,9 +103,9 @@ import pzemt from '@/components/base/pzemt.vue'
                     </thead>
                     <pzemt />
                 </table>
-                <div id="notfoundt">
+                <div id="notfoundhistorit">
                     <div class="p-2 font-semibold text-center bg-white">
-                        Belum ada produksi untuk hari ini
+                        Tidak memproduksi pada hari itu
                     </div>
                 </div>
             </div>

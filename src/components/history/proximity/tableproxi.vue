@@ -1,53 +1,52 @@
 <template>
-    <tbody id="listproxi" class="">
+    <tbody id="listproxihistori">
     </tbody>
 </template>
 
 <script>
-import { dataliststore } from '@/stores/data'
-import { mapState, mapActions } from 'pinia'
+import { dataliststore } from '@/stores/data';
+import { mapState, mapActions } from 'pinia';
 
 export default {
     computed: {
-        ...mapState(dataliststore, ['getproxi'])
+        ...mapState(dataliststore, ['dataHistoriproxi'])
     },
     async mounted() {
-        await this.fetchAndLogProxi();
+        await this.fetchhistoriproxi();
         setInterval(() => {
-            this.fetchAndLogProxi()
+            this.fetchhistoriproxi()
         }, 5000);
     },
     methods: {
-        ...mapActions(dataliststore, ['a$proxi']),
-        async fetchAndLogProxi() {
-            await this.a$proxi();
-            this.logGetProxi();
+        ...mapActions(dataliststore, ['a$historiprox']),
+        async fetchhistoriproxi() {
+            await this.a$historiprox();
+            this.gethistoriproxi();
         },
-        logGetProxi() {
-            const data = this.getproxi.data;
-            const listproxi = document.getElementById('listproxi');
-            const datanotfoundp = document.getElementById('notfoundp');
-
-            // Kosongkan tabel sebelum menambahkan data baru
-            listproxi.innerHTML = '';
+        gethistoriproxi() {
+            const data = this.dataHistoriproxi.data;
+            const notfoundhistori = document.getElementById('notfoundphistori');
+            const listproxihistori = document.getElementById('listproxihistori');
+            listproxihistori.innerHTML = ''
 
             if (data.length > 0) {
-                datanotfoundp.classList.add('hidden');
+                notfoundhistori.classList.add('hidden');
 
-                const DataProxi = [];
-
+                const DatahistoriProxi = [];
                 data.forEach(data => {
                     const timestamp = data.timestamp;
                     // Jika data belum ditampilkan, tambahkan ke dalam tabel
-                    if (!DataProxi.includes(timestamp)) {
+                    if (!DatahistoriProxi.includes(timestamp)) {
                         const date = new Date(timestamp);
-                        DataProxi.push(timestamp);
+                        DatahistoriProxi.push(timestamp);
+
                         const hari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(date);
                         const jam = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
                         const tanggal = date.getDate().toString().padStart('2', '0');
                         const bulan = (date.getMonth() + 1).toString().padStart('2', '0');
                         const tahun = date.getFullYear();
                         const tanggalfull = `${tanggal}/${bulan}/${tahun}`;
+
                         const tr = document.createElement('tr');
                         tr.classList.add('bg-white', 'dark:bg-gray-800');
                         tr.innerHTML = `
@@ -64,11 +63,14 @@ export default {
                                 ${jam}
                             </td>
                         `;
-                        listproxi.appendChild(tr);
+                        listproxihistori.appendChild(tr);
                     }
                 });
+            } else {
+                notfoundhistori.classList.remove('hidden');
             }
         }
+
     }
 }
 </script>
