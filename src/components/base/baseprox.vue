@@ -13,9 +13,6 @@ export default {
     },
     async mounted() {
         await this.fetchAndLogProxi();
-        setInterval(() => {
-            this.fetchAndLogProxi()
-        }, 5000);
     },
     methods: {
         ...mapActions(dataliststore, ['a$proxi']),
