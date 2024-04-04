@@ -47,9 +47,6 @@ export default {
     },
     async mounted() {
         await this.bateraifetch()
-        setInterval(() => {
-            this.bateraifetch()
-        }, 5000);
     }
 
 }
