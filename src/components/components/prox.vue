@@ -11,9 +11,6 @@ export default {
     },
     async mounted() {
         await this.fetchproxione()
-        setInterval(() => {
-            this.fetchproxione()
-        }, 5000);
     },
     updated() {
         this.logGetProxione()
@@ -44,25 +41,19 @@ export default {
                 jcycle.appendChild(tr)
                 jproduk.appendChild(td)
             } else {
-                const DataProxijumlah = []
                 data1.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!DataProxijumlah.includes(timestamp)) {
-                        DataProxijumlah.push(timestamp);
-                        const datacycle = data.cycle
-                        const dataproduk = data.cycle * 4
+                    const datacycle = data.cycle
+                    const dataproduk = data.cycle * 4
 
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'dark:bg-gray-800');
-                        const td = document.createElement('tr');
-                        td.classList.add('bg-white', 'dark:bg-gray-800');
-                        // const dataproduk = datacycle * 4
-                        tr.innerHTML = `<p>${datacycle}</p>`
-                        td.innerHTML = `<p>${dataproduk}</p>`
-                        jcycle.appendChild(tr)
-                        jproduk.appendChild(td)
-                    }
-
+                    const tr = document.createElement('tr');
+                    tr.classList.add('bg-white', 'dark:bg-gray-800');
+                    const td = document.createElement('tr');
+                    td.classList.add('bg-white', 'dark:bg-gray-800');
+                    // const dataproduk = datacycle * 4
+                    tr.innerHTML = `<p>${datacycle}</p>`
+                    td.innerHTML = `<p>${dataproduk}</p>`
+                    jcycle.appendChild(tr)
+                    jproduk.appendChild(td)
                 });
             }
         }
@@ -72,7 +63,7 @@ export default {
 
 <template>
     <div class="flex items-center justify-between mb-5">
-        <h1 class=" text-2xl font-medium">Proximity</h1>
+        <h1 class="text-2xl font-medium ">Proximity</h1>
         <baterai />
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-md">
@@ -96,7 +87,7 @@ export default {
             <baseprox />
         </table>
         <div id="notfoundp">
-            <div class="text-center p-2 bg-white font-semibold">
+            <div class="p-2 font-semibold text-center bg-white">
                 Belum ada produksi untuk hari ini
             </div>
         </div>

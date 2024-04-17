@@ -7,9 +7,6 @@ export default {
     },
     async mounted() {
         await this.fetchpzemr()
-        setInterval(() => {
-            this.fetchpzemr()
-        }, 5000);
     },
     updated() {
         this.logGetpzemr()
@@ -50,15 +47,12 @@ export default {
             inputdatar.innerHTML = ''
             if (data.length > 0) {
                 notfound.classList.add('hidden')
-                const pzemrdata = []
                 data.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!pzemrdata.includes(timestamp)) {
-                        pzemrdata.push(timestamp);
-                        const tr = document.createElement('tr');
-                        tr.className = 'bg-white text-gray-900 text-center  whitespace-nowrap dark:text-white dark:bg-gray-800';
-                        tr.innerHTML +=
-                            `<td
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'bg-white text-gray-900 text-center  whitespace-nowrap dark:text-white dark:bg-gray-800';
+                    tr.innerHTML +=
+                        `<td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -72,8 +66,8 @@ export default {
                                     ${data.frekuensi}
                                 </td>
                             `;
-                        inputdatar.appendChild(tr);
-                    }
+                    inputdatar.appendChild(tr);
+
                 });
             }
         }

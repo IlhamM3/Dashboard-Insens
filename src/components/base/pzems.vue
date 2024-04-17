@@ -7,9 +7,6 @@ export default {
     },
     async mounted() {
         await this.fetchpzems()
-        setInterval(() => {
-            this.fetchpzems()
-        }, 5000);
     },
     updated() {
         this.logGetpzems()
@@ -39,16 +36,11 @@ export default {
             inputdatas.innerHTML = ''
             if (data.length > 0) {
                 notfound.classList.add('hidden')
-                const pzemsdata = []
                 data.forEach(data => {
-
-                    const timestamp = data.timestamp;
-                    if (!pzemsdata.includes(timestamp)) {
-                        pzemsdata.push(timestamp);
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'text-center', 'text-gray-900', 'dark:bg-gray-800');
-                        tr.innerHTML +=
-                            `<td
+                    const tr = document.createElement('tr');
+                    tr.classList.add('bg-white', 'text-center', 'text-gray-900', 'dark:bg-gray-800');
+                    tr.innerHTML +=
+                        `<td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -62,8 +54,7 @@ export default {
                                     ${data.frekuensi}
                                 </td>
                             `
-                        inputdatas.appendChild(tr);
-                    }
+                    inputdatas.appendChild(tr);
                 });
             }
         }

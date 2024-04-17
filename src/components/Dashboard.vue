@@ -11,9 +11,6 @@ export default {
     },
     async mounted() {
         await this.fetchdash()
-        setInterval(() => {
-            this.fetchdash()
-        }, 5000);
     },
     updated() {
         this.logGetdatadash()
@@ -33,7 +30,6 @@ export default {
             const messager = this.getpzemr1.message
             const messages = this.getpzems1.message
             const messaget = this.getpzemt1.message
-            console.log(messaget)
 
             let selectedMessage = ''
             if (messager === 'Alat: ON' || messages === 'Alat: ON' || messaget === 'Alat: ON') {
@@ -73,7 +69,6 @@ export default {
             dashinputdataT.innerHTML = ''
             if (dashproxi1.length > 0) {
                 dashnotfoundp.classList.add('hidden')
-                const proxi1datadash = []
                 dashproxi1.forEach(data => {
                     const dashdatacycle = data.cycle
                     const dashdataproduk = data.cycle * 4
@@ -81,12 +76,10 @@ export default {
                     const dashtimestamp = data.timestamp
                     const date = new Date(dashtimestamp);
                     const jam = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
-                    if (!proxi1datadash.includes(dashtimestamp)) {
-                        proxi1datadash.push(dashtimestamp);
-                        const trdash = document.createElement('tr');
-                        trdash.classList.add('bg-white', 'dark:bg-gray-800');
-                        trdash.innerHTML =
-                            `
+                    const trdash = document.createElement('tr');
+                    trdash.classList.add('bg-white', 'dark:bg-gray-800');
+                    trdash.innerHTML =
+                        `
                                 <td class="px-3 py-4">
                                     ${dashdatacycle}
                                 </td>
@@ -97,27 +90,20 @@ export default {
                                     ${jam}
                                 </td>
                             `
-                        dashcycledash.appendChild(trdash)
-                    }
+                    dashcycledash.appendChild(trdash)
                 });
             }
             if (dashdatar1.length === 0 && dashdatas1.length === 0 && dashdatat1.length === 0) {
 
             } else {
-                const dashpzemDatar = []
-                const dashpzemDatas = []
-                const dashpzemDatat = []
                 dashnotfoundr.classList.add('hidden');
                 dashnotfounds.classList.add('hidden');
                 dashnotfoundt.classList.add('hidden');
                 dashdatar1.forEach(data => {
-                    const dashtimestamp = data.timestamp;
-                    if (!dashpzemDatar.includes(dashtimestamp)) {
-                        dashpzemDatar.push(dashtimestamp);
-                        const dashtr = document.createElement('tr');
-                        dashtr.classList.add('bg-white', 'dark:bg-gray-800');
-                        dashtr.innerHTML =
-                            `<td
+                    const dashtr = document.createElement('tr');
+                    dashtr.classList.add('bg-white', 'dark:bg-gray-800');
+                    dashtr.innerHTML =
+                        `<td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -130,17 +116,13 @@ export default {
                                 <td class="px-6 py-4">
                                     ${data.frekuensi}
                                 </td>`
-                        dashinputdataR.appendChild(dashtr)
-                    }
+                    dashinputdataR.appendChild(dashtr)
                 });
                 dashdatas1.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!dashpzemDatas.includes(timestamp)) {
-                        dashpzemDatas.push(timestamp);
-                        const trpzems = document.createElement('tr');
-                        trpzems.classList.add('bg-white', 'dark:bg-gray-800');
-                        trpzems.innerHTML =
-                            `<td
+                    const trpzems = document.createElement('tr');
+                    trpzems.classList.add('bg-white', 'dark:bg-gray-800');
+                    trpzems.innerHTML =
+                        `<td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -153,17 +135,13 @@ export default {
                                 <td class="px-6 py-4">
                                     ${data.frekuensi}
                                 </td>`
-                        dashinputdataS.appendChild(trpzems)
-                    }
+                    dashinputdataS.appendChild(trpzems)
                 });
                 dashdatat1.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!dashpzemDatat.includes(timestamp)) {
-                        dashpzemDatat.push(timestamp);
-                        const trpzemt = document.createElement('tr');
-                        trpzemt.classList.add('bg-white', 'dark:bg-gray-800');
-                        trpzemt.innerHTML =
-                            `   <td
+                    const trpzemt = document.createElement('tr');
+                    trpzemt.classList.add('bg-white', 'dark:bg-gray-800');
+                    trpzemt.innerHTML =
+                        `   <td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -176,8 +154,7 @@ export default {
                                 <td class="px-6 py-4">
                                     ${data.frekuensi}
                                 </td>`
-                        dashinputdataT.appendChild(trpzemt)
-                    }
+                    dashinputdataT.appendChild(trpzemt)
                 });
             }
 

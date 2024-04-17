@@ -4,117 +4,77 @@ import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
 
 export default {
+    props: ['initDate'],
     components: {
         tableprox,
     },
-    computed: {
-        ...mapState(dataliststore, ['dataHistoriproxi1'])
+    data() {
+        return {
+            valueDate: this.initDate
+        }
     },
-    async mounted() {
-        await this.fetchhistoriproxione()
-        setInterval(() => {
-            this.fetchhistoriproxione()
-        }, 5000);
+    computed: {
+        ...mapState(dataliststore, ['dataHistoriproxi1']),
+        cycleHistory() {
+            if (!this.dataHistoriproxi1.data || !this.dataHistoriproxi1.data.length) {
+                return [{ cycle: 0, produk: 0 }];
+            }
+            return this.dataHistoriproxi1.data.map(item => ({
+                cycle: item.cycle,
+                produk: item.cycle * 4  
+            }));
+        },
+        isDataEmpty() {
+            return this.cycleHistory.length === 1 && this.cycleHistory[0].cycle === 0;
+        }
+    },
+    watch: {
+        initDate() {
+            this.valueDate = this.initDate
+            this.fetchHistoriProxiOne()
+        },
     },
     methods: {
         ...mapActions(dataliststore, ['a$historiprox1']),
-        async fetchhistoriproxione() {
-            await this.a$historiprox1();
-            this.gethistoriproxi1();
-        },
-        gethistoriproxi1() {
-            const data = this.dataHistoriproxi1.data;
-            const jcyclehistori = document.getElementById('jcyclehistori');
-            const jprodukhistori = document.getElementById('jprodukhistori');
-
-            jcyclehistori.innerHTML = ''
-            jprodukhistori.innerHTML = ''
-            if (data.length == 0) {
-                const tr = document.createElement('tr');
-                const td = document.createElement('tr');
-                tr.classList.add('bg-white', 'dark:bg-gray-800');
-                td.classList.add('bg-white', 'dark:bg-gray-800');
-
-                tr.innerHTML = `<p>0</p>`
-                td.innerHTML = `<p>0</p>`
-                jcyclehistori.appendChild(tr)
-                jprodukhistori.appendChild(td)
-            } else {
-                const dataproxijumlahhistori = []
-                data.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!dataproxijumlahhistori.includes(timestamp)) {
-                        dataproxijumlahhistori.push(timestamp);
-                        const datacycle = data.cycle
-                        const dataproduk = data.cycle * 4
-
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'dark:bg-gray-800');
-                        const td = document.createElement('tr');
-                        td.classList.add('bg-white', 'dark:bg-gray-800');
-
-                        // const dataproduk = datacycle * 4
-                        tr.innerHTML = `<p>${datacycle}</p>`
-                        td.innerHTML = `<p>${dataproduk}</p>`
-                        jcyclehistori.appendChild(tr)
-                        jprodukhistori.appendChild(td)
-                    }
-                });
-            }
+        async fetchHistoriProxiOne() {
+            await this.a$historiprox1(this.valueDate);
         }
+    },
+    async mounted() {
+        this.fetchHistoriProxiOne();
     }
 }
 </script>
 
 <template>
-    <h1 class="mb-5 text-2xl font-medium ">Proximity</h1>
+    <h1 class="mb-5 text-2xl font-medium">Proximity</h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-md">
-        <table class="w-full text-sm font-medium text-left text-gray-500 rtl:text-right dark:text-gray-400">
+        <table class="w-full text-sm font-medium text-left text-gray-500 dark:text-gray-400">
             <thead class="text-gray-900 uppercase bg-gray-100 text-md dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-3 py-3">
-                        Proses Injection
-                    </th>
-                    <th scope="col" class="px-3 py-3">
-                        Hari
-                    </th>
-                    <th scope="col" class="px-3 py-3">
-                        Tanggal
-                    </th>
-                    <th scope="col" class="px-3 py-3">
-                        Jam
-                    </th>
+                    <th scope="col" class="px-3 py-3">Proses Injection</th>
+                    <th scope="col" class="px-3 py-3">Hari</th>
+                    <th scope="col" class="px-3 py-3">Tanggal</th>
+                    <th scope="col" class="px-3 py-3">Jam</th>
                 </tr>
             </thead>
-            <tableprox />
+            <tableprox :initDate="valueDate"/>
         </table>
-        <div id="notfoundphistori">
-            <div class="p-2 font-semibold text-center bg-white">
-                Tidak memproduksi pada hari itu
-            </div>
-        </div>
     </div>
-    <footer
-        class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white rounded-lg shadow dark:bg-gray-800 shadow-md sm:rounded-lg">
-        <div class="w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between">
-            <table class="w-full text-left text-gray-500 text-md rtl:text-right dark:text-gray-400">
-                <tbody>
-                    <tr class="bg-white dark:bg-gray-800">
-                        <th scope="row" class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
-                            Jumlah Cycle:
-                        </th>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcyclehistori">
-
-                        </td>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">
-                            Jumlah Produk:
-                        </td>
-                        <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jprodukhistori">
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <footer class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white rounded-lg shadow dark:bg-gray-800">
+        <table class="w-full text-left text-gray-500 dark:text-gray-400">
+            <tbody>
+                <tr class="bg-white dark:bg-gray-800">
+                    <th class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">Jumlah Cycle:</th>
+                    <td v-for="item in cycleHistory" :key="item.cycle" class="px-3 py-4 font-bold text-gray-900">
+                        {{ item.cycle }}
+                    </td>
+                    <td class="px-3 py-4 font-bold text-gray-900">Jumlah Produk:</td>
+                    <td v-for="item in cycleHistory" :key="item.produk" class="px-3 py-4 font-bold text-gray-900">
+                        {{ item.produk }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </footer>
 </template>
