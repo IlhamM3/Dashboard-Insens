@@ -26,16 +26,11 @@ export default {
             inputdatat.innerHTML = ''
             if (data.length > 0) {
                 notfound.classList.add('hidden')
-                const pzemtdata = []
                 data.forEach(data => {
-
-                    const timestamp = data.timestamp;
-                    if (!pzemtdata.includes(timestamp)) {
-                        pzemtdata.push(timestamp);
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'text-gray-900', 'text-center', 'dark:bg-gray-800');
-                        tr.innerHTML +=
-                            `<td
+                    const tr = document.createElement('tr');
+                    tr.classList.add('bg-white', 'text-gray-900', 'text-center', 'dark:bg-gray-800');
+                    tr.innerHTML +=
+                        `<td
                                     class="px-6 py-4 ">
                                     ${data.tegangan}
                                 </td>
@@ -49,8 +44,7 @@ export default {
                                     ${data.frekuensi}
                                 </td>
                             `
-                        inputdatat.appendChild(tr);
-                    }
+                    inputdatat.appendChild(tr);
                 });
             }
         }

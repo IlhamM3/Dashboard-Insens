@@ -22,7 +22,6 @@ export default {
             const baterai = document.getElementById('baterai');
             const infobaterai = document.getElementById('infobaterai');
             baterai.innerHTML = ''
-            const bateraiindikator = []
             if (data === 'Baterai is off') {
                 infobaterai.innerHTML = 'Alat: Off'
                 infobaterai.classList.remove('hidden')
@@ -30,14 +29,10 @@ export default {
             } else {
                 baterai.classList.remove('hidden')
                 infobaterai.classList.add('hidden')
-                const timestamp = data.createdAt;
-                if (!bateraiindikator.includes(timestamp)) {
-                    bateraiindikator.push(timestamp);
-                    const bateraipersen = data.indikator_baterai * 1
-                    const div = document.createElement('div');
-                    div.innerHTML += `Baterai: ${bateraipersen}%`
-                    baterai.appendChild(div)
-                }
+                const bateraipersen = data.indikator_baterai * 1
+                const div = document.createElement('div');
+                div.innerHTML += `Baterai: ${bateraipersen}%`
+                baterai.appendChild(div)
             }
         },
         async bateraifetch() {

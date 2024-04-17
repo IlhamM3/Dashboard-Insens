@@ -41,25 +41,19 @@ export default {
                 jcycle.appendChild(tr)
                 jproduk.appendChild(td)
             } else {
-                const DataProxijumlah = []
                 data1.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!DataProxijumlah.includes(timestamp)) {
-                        DataProxijumlah.push(timestamp);
-                        const datacycle = data.cycle
-                        const dataproduk = data.cycle * 4
+                    const datacycle = data.cycle
+                    const dataproduk = data.cycle * 4
 
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'dark:bg-gray-800');
-                        const td = document.createElement('tr');
-                        td.classList.add('bg-white', 'dark:bg-gray-800');
-                        // const dataproduk = datacycle * 4
-                        tr.innerHTML = `<p>${datacycle}</p>`
-                        td.innerHTML = `<p>${dataproduk}</p>`
-                        jcycle.appendChild(tr)
-                        jproduk.appendChild(td)
-                    }
-
+                    const tr = document.createElement('tr');
+                    tr.classList.add('bg-white', 'dark:bg-gray-800');
+                    const td = document.createElement('tr');
+                    td.classList.add('bg-white', 'dark:bg-gray-800');
+                    // const dataproduk = datacycle * 4
+                    tr.innerHTML = `<p>${datacycle}</p>`
+                    td.innerHTML = `<p>${dataproduk}</p>`
+                    jcycle.appendChild(tr)
+                    jproduk.appendChild(td)
                 });
             }
         }

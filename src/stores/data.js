@@ -105,41 +105,41 @@ export const dataliststore = defineStore({
         },
 
         // History API
-        async a$historiprox() {
+        async a$historiprox(date) {
             try {
-                const { data } = await s$data.historiprox()
+                const { data } = await s$data.historiprox(date)
                 this.sethistoriprox(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
         },
-        async a$historiprox1() {
+        async a$historiprox1(date) {
             try {
-                const { data } = await s$data.historiprox1()
+                const { data } = await s$data.historiprox1(date)
                 this.sethistoriprox1(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
         },
-        async a$historipzemr() {
+        async a$historipzemr(date) {
             try {
-                const { data } = await s$data.historipzemr()
+                const { data } = await s$data.historipzemr(date)
                 this.sethistoripzemr(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
         },
-        async a$historipzems() {
+        async a$historipzems(date) {
             try {
-                const { data } = await s$data.historipzems()
+                const { data } = await s$data.historipzems(date)
                 this.sethistoripzems(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
         },
-        async a$historipzemt() {
+        async a$historipzemt(date) {
             try {
-                const { data } = await s$data.historipzemt()
+                const { data } = await s$data.historipzemt(date)
                 this.sethistoripzemt(data)
             } catch ({ message, error }) {
                 throw message ?? error
