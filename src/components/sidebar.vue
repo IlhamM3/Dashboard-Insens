@@ -45,32 +45,32 @@ import { RouterLink } from 'vue-router'
         <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <RouterLink to="/dashboard" :class="{ 'active': isactive }" @click="reload"
+                    <RouterLink to="/dashboard" :class="{ 'active': isactive }"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="ms-3">Dashboard</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/proximity" :class="{ 'active': isactiveprox }" @click="reload"
+                    <RouterLink to="/proximity" :class="{ 'active': isactiveprox }"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Proximity</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/pzem" :class="{ 'active': isactivepzem }" @click="reload"
+                    <RouterLink to="/pzem" :class="{ 'active': isactivepzem }"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Pzem</span>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/history" :class="{ 'active': isactivehis }" @click="reload"
+                    <RouterLink to="/history" :class="{ 'active': isactivehis }"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Histori</span>
                     </RouterLink>
                 </li>
                 <li>
                     <button @click="logout"
-                        class="w-full text-start flex p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
+                        class="flex w-full p-2 text-gray-900 rounded-lg text-start dark:text-white hover:bg-blue-700 hover:text-white dark:hover:bg-gray-700 group">
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
                     </button>
                 </li>
@@ -95,11 +95,6 @@ export default {
                 console.log(error)
             }
         },
-        async reload() {
-            setInterval(() => {
-                window.location.reload()
-            }, 50);
-        }
 
     },
     props: {
