@@ -25,16 +25,6 @@ export default {
         logGetpzems() {
             const notfound = document.getElementById('notfounds')
             const inputdatas = document.getElementById('pzems')
-            const messagess = this.getpzems.message
-            const infoalatpzems = document.getElementById('infoalatpzem')
-            infoalatpzems.innerHTML = `${messagess}`;
-            if (messagess === 'Alat: ON') {
-                infoalatpzems.classList.add('bg-green-500')
-                infoalatpzems.classList.remove('bg-gray-600')
-            } else {
-                infoalatpzems.classList.add('bg-gray-600')
-                infoalatpzems.classList.remove('bg-green-500')
-            }
             const data = this.getpzems.data
             inputdatas.innerHTML = ''
             if (data.length > 0) {

@@ -1,11 +1,10 @@
-<script setup>
-import baterai from '@/components/components/baterai.vue'
-</script>
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
+import baterai from '@/components/components/baterai.vue' 
 
 export default {
+    components: { baterai },
     computed: {
         ...mapState(dataliststore, ['getproxi1', 'getpzemr1', 'getpzems1', 'getpzemt1'])
     },
@@ -23,11 +22,18 @@ export default {
             'a$pzemr1', 'a$pzems1', 'a$pzemt1', 'a$proxi1'
         ]),
         async fetchdash() {
-            await this.a$pzemr1()
-            await this.a$pzems1()
-            await this.a$pzemt1()
-            await this.a$proxi1()
-            this.logGetdatadash()
+            try {
+                // Ambil data dari semua sumber
+                await Promise.all([
+                    this.a$pzemr1(),
+                    this.a$pzems1(),
+                    this.a$pzemt1(),
+                    this.a$proxi1()
+                ]);
+                this.logGetdatadash();
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
+            }
         },
         logGetdatadash() {
             const messager = this.getpzemr1.message
@@ -180,8 +186,6 @@ export default {
                     }
                 });
             }
-
-
         }
     }
 }

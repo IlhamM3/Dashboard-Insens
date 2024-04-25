@@ -7,7 +7,10 @@ import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
 export default {
     computed: {
-        ...mapState(dataliststore, ['getproxi1'])
+        ...mapState(dataliststore, ['getproxi1']),
+        datanull() {
+            return !this.getproxi1.data || !this.getproxi1.data.length;
+        }
     },
     async mounted() {
         await this.fetchproxione()
@@ -95,11 +98,7 @@ export default {
             </thead>
             <baseprox />
         </table>
-        <div id="notfoundp">
-            <div class="text-center p-2 bg-white font-semibold">
-                Belum ada produksi untuk hari ini
-            </div>
-        </div>
+        
     </div>
     <footer
         class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white border border-gray-400 shadow dark:bg-gray-800 shadow-md ">
