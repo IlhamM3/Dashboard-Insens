@@ -4,11 +4,22 @@ import pzems from '../pzem/pzems.vue'
 import pzemt from '../pzem/pzemt.vue'
 
 export default {
+    props: ['initDate'],
+    data() {
+        return {
+            valueDate: this.initDate
+        }
+    },
+    watch: {
+        initDate() {
+            this.valueDate = this.initDate;
+        }
+    },
     components: {
         pzemr,
         pzems,
         pzemt
-    },
+    }
 }
 </script>
 
@@ -37,13 +48,8 @@ export default {
                             </th>
                         </tr>
                     </thead>
-                    <pzemr />
+                    <pzemr :initDate="valueDate" />
                 </table>
-                <div id="notfoundhistorir">
-                    <div class="p-2 font-semibold text-center bg-white">
-                        Tidak memproduksi pada hari itu
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -69,13 +75,8 @@ export default {
                             </th>
                         </tr>
                     </thead>
-                    <pzems />
+                    <pzems :initDate="valueDate" />
                 </table>
-                <div id="notfoundhistoris">
-                    <div class="p-2 font-semibold text-center bg-white">
-                        Tidak memproduksi pada hari itu
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -101,13 +102,8 @@ export default {
                             </th>
                         </tr>
                     </thead>
-                    <pzemt />
+                    <pzemt :initDate="valueDate" />
                 </table>
-                <div id="notfoundhistorit">
-                    <div class="p-2 font-semibold text-center bg-white">
-                        Tidak memproduksi pada hari itu
-                    </div>
-                </div>
             </div>
         </div>
     </div>

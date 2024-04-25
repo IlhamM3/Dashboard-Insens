@@ -1,69 +1,58 @@
-<template>
-    <tbody id="historipzemt">
-
-    </tbody>
-</template>
-
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
 export default {
+    props: ['initDate'],
+    data() {
+        return {
+            valueDate: this.initDate
+        }
+    },
+    watch: {
+        initDate() {
+            this.valueDate = this.initDate;
+            this.fetchhistoripzemt()
+        }
+    },
     computed: {
-        ...mapState(dataliststore, ['gethistoripzemt'])
+        ...mapState(dataliststore, ['gethistoripzemt']),
+        datapzemtitem(){
+            if (!this.gethistoripzemt.data || !this.gethistoripzemt.data.length) {
+                return [];
+            }
+            return this.gethistoripzemt.data.map(item => ({
+                tegangan: item.tegangan,
+                arus: item.arus,
+                energi: item.energi,
+                frekuensi: item.frekuensi
+            }));
+        }
     },
     async mounted() {
         await this.fetchhistoripzemt()
-        setInterval(() => {
-            this.fetchhistoripzemt()
-        }, 5000);
-    },
-    updated() {
-        this.logGethistoripzemt()
     },
     methods: {
         ...mapActions(dataliststore, [
             'a$historipzemt'
         ]),
         async fetchhistoripzemt() {
-            await this.a$historipzemt()
-            this.logGethistoripzemt()
+            await this.a$historipzemt(this.valueDate)
         },
-        logGethistoripzemt() {
-            const inputhistoridatat = document.getElementById('historipzemt')
-            const notfound = document.getElementById('notfoundhistorit')
-            const data = this.gethistoripzemt.data
-            inputhistoridatat.innerHTML = ''
-            if (data.length > 0) {
-                notfound.classList.add('hidden')
-                const pzemthistoridata = []
-                data.forEach(data => {
-                    const timestamp = data.timestamp;
-                    if (!pzemthistoridata.includes(timestamp)) {
-                        pzemthistoridata.push(timestamp);
-                        const tr = document.createElement('tr');
-                        tr.className = 'bg-white text-gray-900 text-center  whitespace-nowrap dark:text-white dark:bg-gray-800';
-                        tr.innerHTML +=
-                            `<td
-                                    class="px-6 py-4 ">
-                                    ${data.tegangan}
-                                </td>
-                                <td class="px-6 py-4">
-                                    ${data.arus}
-                                </td>
-                                <td class="px-6 py-4 font-bold text-green-600">
-                                    ${data.energi}
-                                </td>
-                                <td class="px-6 py-4">
-                                    ${data.frekuensi}
-                                </td>
-                            `;
-                        inputhistoridatat.appendChild(tr);
-                    }
-                });
-            } else {
-                notfound.classList.remove('hidden')
-            }
-        }
     }
 }
 </script>
+<template>
+    <tbody id="historipzemt">
+        <tr v-if="datapzemtitem.length === 0" class="bg-white text-gray-900 text-center  whitespace-nowrap dark:text-white dark:bg-gray-800">
+            <td colspan="4" class="p-2 font-semibold text-center bg-white">
+                Tidak ada data yang ditemukan.
+            </td>
+        </tr>
+        <tr v-else v-for="(item, index) in datapzemtitem" :key="index" class="bg-white">
+            <td class="px-6 py-4">{{ item.tegangan}}</td>
+            <td class="px-6 py-4">{{ item.arus}}</td>
+            <td class="px-6 py-4 font-bold text-green-600">{{ item.energi }}</td>
+            <td class="px-6 py-4">{{ item.frekuensi }}</td>
+        </tr>
+    </tbody>
+</template>
