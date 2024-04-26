@@ -15,6 +15,7 @@ const pzemT = () => baseApi.get(`${api}/pzemt`)
 const pzemT1 = () => baseApi.get(`${api}/pzemt1`)
 
 const baterai = () => baseApi.get(`${api}/baterai`)
+const mesin = () => baseApi.get(`${api}/mesin`)
 
 // Fungsi untuk memanggil API dengan tanggal yang dipilih
 const historipzemr = (selectDate) => baseApi.get(`${api}/pzemrHistory?startDate=${selectDate}&endDate=${selectDate}`);
@@ -26,5 +27,5 @@ const historiprox1 = (selectDate) => baseApi.get(`${api}/proxHistory1?startDate=
 
 export {
     proximity, proximity1, pzemR, pzemS, pzemT, pzemR1, pzemS1, pzemT1, baterai,
-    historipzemr, historipzems, historipzemt, historiprox, historiprox1
+    historipzemr, historipzems, historipzemt, historiprox, historiprox1, mesin
 }

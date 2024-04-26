@@ -18,6 +18,7 @@ export const dataliststore = defineStore({
         datapzemt1: [],
 
         databaterai: [],
+        datamesin: [],
 
         //History Data
         dataHistoriproxi: [],
@@ -99,6 +100,14 @@ export const dataliststore = defineStore({
             try {
                 const { data } = await s$data.baterai()
                 this.setBaterai(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$mesin() {
+            try {
+                const { data } = await s$data.mesin()
+                this.setmesin(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -193,6 +202,9 @@ export const dataliststore = defineStore({
         },
         setBaterai(data) {
             this.databaterai = data
+        },
+        setmesin(data) {
+            this.datamesin = data
         }
     },
     getters: {
@@ -210,6 +222,7 @@ export const dataliststore = defineStore({
         getpzemt1: (state) => state.datapzemt1,
 
         getbaterai: (state) => state.databaterai,
+        getmesin: (state) => state.datamesin,
 
         // Getter history APi
 

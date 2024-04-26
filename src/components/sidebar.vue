@@ -1,6 +1,3 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>
 <template>
     <nav class="fixed top-0 z-50 w-full bg-gray-100 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -23,8 +20,8 @@ import { RouterLink } from 'vue-router'
                     <div class="w-full md:block md:w-auto" id="navbar-default">
                         <ul
                             class="grid items-center grid-cols-2 p-4 font-medium bg-gray-100 border border-gray-100 rounded-lg sm:flex gap-x-5 md:p-0 md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-100 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <li class="hidden md:block">
-                                <h3>Sistem monitoring sensor di (Merek mesin.....)</h3>
+                            <li class="hidden md:block" >
+                                <h3>Sistem monitoring sensor di <span id="merek" class="font-bold uppercase"></span></h3>
                             </li>
                             <li>
                                 <h3 id="tanggal"></h3>
@@ -80,11 +77,25 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { RouterLink } from 'vue-router'
+import { mapActions, mapState } from 'pinia'
+import { dataliststore } from '@/stores/data'
 import { d$auth } from '@/stores/auth';
 export default {
+    components:{
+        RouterLink
+    },
+    computed: {
+        ...mapState(dataliststore, ['datamesin']),
+        getmerekmesin(){
+            return this.datamesin.data.map(item=>({
+                merek: item.merek_mesin
+            }));
+        }
+    },
     methods: {
         ...mapActions(d$auth, ['a$logout']),
+        ...mapActions(dataliststore, ['a$mesin']),
         async logout() {
             try {
                 await this.a$logout(),
@@ -104,6 +115,12 @@ export default {
         isactivehis: Boolean
     },
     async mounted() {
+        await this.a$mesin();
+        const merek = document.getElementById('merek');
+        const data = this.datamesin.data;
+        data.forEach(data => {
+            merek.innerText = data.merek_mesin
+        });
         //nav indikator
         const opensidebar = document.getElementById('buttonnavbar');
         const targetsidebar = document.getElementById('sidebar');
