@@ -99,9 +99,10 @@ export default {
         async logout() {
             try {
                 await this.a$logout(),
-                    this.$router.replace({
+                    await this.$router.replace({
                         name: 'login'
-                    })
+                    });
+                    await window.location.reload();
             } catch (error) {
                 console.log(error)
             }
