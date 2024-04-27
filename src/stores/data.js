@@ -57,6 +57,7 @@ export const dataliststore = defineStore({
             try {
                 const { data } = await s$data.pzemR1()
                 this.setPzemR1(data)
+                
             } catch ({ message, error }) {
                 throw message ?? error
             }

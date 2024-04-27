@@ -1,56 +1,56 @@
 <template>
-    <h3 id="baterai" class="hidden p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md">
+    <h3 v-if="baterai === 'Baterai is off'" class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
+        {{ infobateraiText }}
     </h3>
-    <div id="infobaterai" class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
+    <div v-else class=" p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md">
+        {{ infobateraiText }}
     </div>
 </template>
+
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
 
 export default {
-    computed: {
-        ...mapState(dataliststore, ['getbaterai'])
+    data() {
+        return {
+            infobateraiText: '',
+            baterai:''
+        }
     },
-    updated() {
-        this.indikatorbaterai()
+    computed: {
+        ...mapState(dataliststore, {
+            getbaterai: state => state.getbaterai
+        })
     },
     methods: {
         ...mapActions(dataliststore, ['a$baterai']),
-        indikatorbaterai() {
-            const data = this.getbaterai.data
-            const baterai = document.getElementById('baterai');
-            const infobaterai = document.getElementById('infobaterai');
-            baterai.innerHTML = ''
-            const bateraiindikator = []
+        async indikatorbaterai() {
+            const data = this.getbaterai.data;
+            this.baterai = data
             if (data === 'Baterai is off') {
-                infobaterai.innerHTML = 'Alat: Off'
-                infobaterai.classList.remove('hidden')
-                baterai.classList.add('hidden')
+                this.infobateraiText = 'Alat: Off';
             } else {
-                baterai.classList.remove('hidden')
-                infobaterai.classList.add('hidden')
                 const timestamp = data.createdAt;
-                if (!bateraiindikator.includes(timestamp)) {
-                    bateraiindikator.push(timestamp);
-                    const bateraipersen = data.indikator_baterai * 1
-                    const div = document.createElement('div');
-                    div.innerHTML += `Baterai: ${bateraipersen}%`
-                    baterai.appendChild(div)
+                if (!this.bateraiindikator || !this.bateraiindikator.includes(timestamp)) {
+                    if (!this.bateraiindikator) this.bateraiindikator = [];
+                    this.bateraiindikator.push(timestamp);
+                    const bateraipersen = data.indikator_baterai * 1;
+                    this.infobateraiText = `Baterai: ${bateraipersen}%`;
                 }
             }
         },
+
         async bateraifetch() {
             await this.a$baterai();
             this.indikatorbaterai();
         }
     },
     async mounted() {
-        await this.bateraifetch()
-        setInterval(() => {
-            this.bateraifetch()
+        await this.bateraifetch();
+        setInterval(async () => {
+            await this.bateraifetch();
         }, 5000);
     }
-
 }
 </script>
