@@ -75,7 +75,7 @@ export default {
                 <h1 class="text-2xl font-medium">Proximity</h1>
                 <baterai />
             </div>
-            <div class="relative overflow-x-auto shadow-md sm:rounded-md">
+            <div class="relative overflow-x-hidden shadow-md sm:rounded-md">
                 <table class="w-full font-medium text-left text-gray-900 text-md rtl:text-right dark:text-gray-400">
                     <thead class="text-gray-900 uppercase bg-gray-100 text-md dark:text-gray-400">
                         <tr>
@@ -120,7 +120,7 @@ export default {
             </div>
             <div class="flex flex-wrap items-center justify-center gap-4 mb-4 md:grid md:grid-cols-3">
                 <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-                    <div class="relative justify-center overflow-x-auto">
+                    <div class="relative justify-center overflow-x-hidden">
                         <h1 class="text-lg font-bold text-center">R</h1>
                         <hr>
                         <table class="w-full text-left text-gray-500 text-md rtl:text-right dark:text-gray-400">
@@ -158,7 +158,7 @@ export default {
                     </div>
                 </div>
                 <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-                    <div class="relative overflow-x-auto">
+                    <div class="relative overflow-x-hidden">
                         <h1 class="text-lg font-bold text-center">S</h1>
                         <hr>
                         <table class="w-full text-left text-gray-500 text-md rtl:text-right dark:text-gray-400">
@@ -196,7 +196,7 @@ export default {
                     </div>
                 </div>
                 <div class="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
-                    <div class="relative overflow-x-auto">
+                    <div class="relative overflow-x-hidden">
                         <h1 class="text-lg font-bold text-center">T</h1>
                         <hr>
                         <table class="w-full text-left text-gray-500 text-md rtl:text-right dark:text-gray-400">

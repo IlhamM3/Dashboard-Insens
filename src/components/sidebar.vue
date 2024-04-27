@@ -102,7 +102,7 @@ export default {
                     await this.$router.replace({
                         name: 'login'
                     });
-                    await window.location.reload();
+                    window.location.reload();
             } catch (error) {
                 console.log(error)
             }
