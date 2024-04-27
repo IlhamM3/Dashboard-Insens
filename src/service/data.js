@@ -15,30 +15,17 @@ const pzemT = () => baseApi.get(`${api}/pzemt`)
 const pzemT1 = () => baseApi.get(`${api}/pzemt1`)
 
 const baterai = () => baseApi.get(`${api}/baterai`)
-
-let selectDate = [];
-
-function updateSelectedDate() {
-    const tanggal = sessionStorage.getItem('tanggal');
-    if (tanggal && tanggal.length > 0) {
-        selectDate = [tanggal];
-        historipzemr();
-        historipzems();
-        historipzemt();
-        historiprox();
-        historiprox1();
-    }
-}
-setInterval(updateSelectedDate, 50);
+const mesin = () => baseApi.get(`${api}/mesin`)
 
 // Fungsi untuk memanggil API dengan tanggal yang dipilih
-const historipzemr = () => baseApi.get(`${api}/pzemrHistory?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);
-const historipzems = () => baseApi.get(`${api}/pzemsHistory?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);
-const historipzemt = () => baseApi.get(`${api}/pzemtHistory?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);
-const historiprox = () => baseApi.get(`${api}/proxHistory?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);
-const historiprox1 = () => baseApi.get(`${api}/proxHistory1?startDate=${selectDate[0]}&endDate=${selectDate[0]}`);
+const historipzemr = (selectDate) => baseApi.get(`${api}/pzemrHistory?startDate=${selectDate}&endDate=${selectDate}`);
+const historipzems = (selectDate) => baseApi.get(`${api}/pzemsHistory?startDate=${selectDate}&endDate=${selectDate}`);
+const historipzemt = (selectDate) => baseApi.get(`${api}/pzemtHistory?startDate=${selectDate}&endDate=${selectDate}`);
+const historiprox = (selectDate) => baseApi.get(`${api}/proxHistory?startDate=${selectDate}&endDate=${selectDate}`);
+const historiprox1 = (selectDate) => baseApi.get(`${api}/proxHistory1?startDate=${selectDate}&endDate=${selectDate}`);
+
 
 export {
     proximity, proximity1, pzemR, pzemS, pzemT, pzemR1, pzemS1, pzemT1, baterai,
-    historipzemr, historipzems, historipzemt, historiprox, historiprox1
+    historipzemr, historipzems, historipzemt, historiprox, historiprox1, mesin
 }

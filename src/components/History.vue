@@ -1,10 +1,11 @@
 <template>
     <div class="p-9 sm:ml-64 my-28 md:my-16">
-        <section class="flex items-center gap-x-5">
+        <section class="flex gap-x-5">
             <form>
                 <div class="relative">
                     <select id="dropdown"
-                        class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+                        class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center"
+                        v-model="selectedView">
                         <option value="proximity">Proximity</option>
                         <option value="pzem">Pzem</option>
                     </select>
@@ -19,17 +20,17 @@
             </form>
 
             <div class="relative max-w-sm">
-                <input type="date" id="selectplace"
+                <input type="date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     v-model="valueDate">
             </div>
         </section>
 
-        <section id="prox" class="mt-2">
-            <prox />
+        <section v-if="selectedView === 'proximity'" class="mt-2">
+            <prox :initDate="valueDate" />
         </section>
-        <section id="pzem" class="hidden mt-2">
-            <pzem />
+        <section v-if="selectedView === 'pzem'" class="mt-2">
+            <pzem :initDate="valueDate" />
         </section>
     </div>
 </template>
@@ -44,37 +45,9 @@ export default {
     },
     data() {
         return {
-            valueDate: ''
+            valueDate: '',
+            selectedView: 'proximity'
         }
     },
-    watch: {
-        valueDate(newvalue) {
-            sessionStorage.setItem('tanggal', newvalue)
-            sessionStorage.setItem('checkReload', 'true');
-        }
-    },
-    mounted() {
-        window.onload = function () {
-            if (sessionStorage.getItem('checkReload') === 'true') {
-                sessionStorage.removeItem('tanggal');
-                sessionStorage.removeItem('checkReload');
-            }
-        }
-        const dropdown = document.getElementById('dropdown');
-        const pzem = document.getElementById('pzem');
-        const prox = document.getElementById('prox');
-
-        dropdown.addEventListener('change', function () {
-            const selectedValue = dropdown.value;
-            if (selectedValue === 'proximity') {
-                pzem.classList.toggle('hidden');
-                prox.classList.toggle('hidden');
-            } else if (selectedValue === 'pzem') {
-                pzem.classList.toggle('hidden');
-                prox.classList.toggle('hidden');
-            }
-        });
-    }
 }
 </script>
-./components/prox.js

@@ -1,5 +1,18 @@
 <template>
     <tbody id="listproxihistori">
+        <tr v-if="dataproxiitem.length === 0">
+            <td colspan="4" class="p-2 font-semibold text-center bg-white">
+                Tidak ada data yang ditemukan.
+            </td>
+        </tr>
+        <tr v-else v-for="(item, index) in dataproxiitem" :key="index" class="bg-white">
+            <td scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                Finished
+            </td>
+            <td class="px-3 py-4">{{ formatDate(item.timestamp) }}</td>
+            <td class="px-3 py-4">{{ formatTanggal(item.timestamp) }}</td>
+            <td class="px-3 py-4">{{ formatJam(item.timestamp) }}</td>
+        </tr>
     </tbody>
 </template>
 
@@ -8,69 +21,58 @@ import { dataliststore } from '@/stores/data';
 import { mapState, mapActions } from 'pinia';
 
 export default {
+    props: ['initDate'],
+    data() {
+        return {
+            valueDate: this.initDate
+        }
+    },
     computed: {
-        ...mapState(dataliststore, ['dataHistoriproxi'])
+        ...mapState(dataliststore, ['dataHistoriproxi']),
+        dataproxiitem(){
+            if (!this.dataHistoriproxi.data || !this.dataHistoriproxi.data.length) {
+                return [];
+            }
+            return this.dataHistoriproxi.data.map(item => ({
+                timestamp: item.timestamp,
+            }));
+        }
+    },
+    watch: {
+        initDate() {
+            this.valueDate = this.initDate;
+            this.fetchhistoriproxi();
+        }
     },
     async mounted() {
         await this.fetchhistoriproxi();
-        setInterval(() => {
-            this.fetchhistoriproxi()
-        }, 5000);
     },
     methods: {
         ...mapActions(dataliststore, ['a$historiprox']),
         async fetchhistoriproxi() {
-            await this.a$historiprox();
-            this.gethistoriproxi();
+            await this.a$historiprox(this.valueDate);
         },
-        gethistoriproxi() {
-            const data = this.dataHistoriproxi.data;
-            const notfoundhistori = document.getElementById('notfoundphistori');
-            const listproxihistori = document.getElementById('listproxihistori');
-            listproxihistori.innerHTML = ''
-
-            if (data.length > 0) {
-                notfoundhistori.classList.add('hidden');
-
-                const DatahistoriProxi = [];
-                data.forEach(data => {
-                    const timestamp = data.timestamp;
-                    // Jika data belum ditampilkan, tambahkan ke dalam tabel
-                    if (!DatahistoriProxi.includes(timestamp)) {
-                        const date = new Date(timestamp);
-                        DatahistoriProxi.push(timestamp);
-
-                        const hari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(date);
-                        const jam = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
-                        const tanggal = date.getDate().toString().padStart('2', '0');
-                        const bulan = (date.getMonth() + 1).toString().padStart('2', '0');
-                        const tahun = date.getFullYear();
-                        const tanggalfull = `${tanggal}/${bulan}/${tahun}`;
-
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'dark:bg-gray-800');
-                        tr.innerHTML = `
-                            <td scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                finished
-                            </td>
-                            <td class="px-3 py-4">
-                                ${hari}
-                            </td>
-                            <td class="px-3 py-4">
-                                ${tanggalfull}
-                            </td>
-                            <td class="px-3 py-4">
-                                ${jam}
-                            </td>
-                        `;
-                        listproxihistori.appendChild(tr);
-                    }
-                });
-            } else {
-                notfoundhistori.classList.remove('hidden');
-            }
+        formatDate(timestamp) {
+            if (!timestamp) return ''; 
+            const date = new Date(timestamp);
+            return new Intl.DateTimeFormat('id-ID', { weekday: 'long' }).format(date);
+        },
+        formatTanggal(timestamp) {
+            if (!timestamp) return ''; 
+            const date = new Date(timestamp);
+            const tanggal = date.getDate().toString().padStart(2, '0');
+            const bulan = (date.getMonth() + 1).toString().padStart(2, '0');
+            const tahun = date.getFullYear();
+            return `${tanggal}/${bulan}/${tahun}`;
+        },
+        formatJam(timestamp) {
+            if (!timestamp) return ''; 
+            const date = new Date(timestamp);
+            const jam = ('0' + date.getHours()).slice(-2);
+            const menit = ('0' + date.getMinutes()).slice(-2);
+            const detik = ('0' + date.getSeconds()).slice(-2);
+            return `${jam}:${menit}:${detik}`;
         }
-
     }
 }
 </script>

@@ -1,69 +1,51 @@
+<template>
+    <tbody id="pzemt">
+        <tr v-if="pzemtlength === 0" >
+            <td colspan="4" class="p-2 font-semibold text-center bg-white">
+                Belum ada produksi untuk hari ini
+            </td>
+        </tr>
+        <tr v-else v-for="data in getpzemt.data" :key="data.timestamp"
+            class="bg-white text-gray-900 text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
+            <td class="px-6 py-4">{{ data.tegangan }}</td>
+            <td class="px-6 py-4">{{ data.arus }}</td>
+            <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
+            <td class="px-6 py-4">{{ data.frekuensi }}</td>
+        </tr>
+    </tbody>
+</template>
+
 <script>
 import { dataliststore } from '@/stores/data'
 import { mapState, mapActions } from 'pinia'
+
 export default {
+    data(){
+        return{
+            pzemtlength:'',
+        }
+    },
     computed: {
-        ...mapState(dataliststore, ['getpzemt'])
+        ...mapState(dataliststore, ['getpzemt']),
     },
     async mounted() {
         await this.fetchpzemt()
-        setInterval(() => {
+        this.interval = setInterval(() => {
             this.fetchpzemt()
         }, 5000);
     },
-    updated() {
-        this.logGetpzemt()
+    beforeDestroy() {
+        clearInterval(this.interval);
     },
     methods: {
-        ...mapActions(dataliststore, [
-            'a$pzemt'
-        ]),
+        ...mapActions(dataliststore, ['a$pzemt']),
         async fetchpzemt() {
-            await this.a$pzemt()
-            this.logGetpzemt()
+            await this.a$pzemt();
+            await this.pzemtfetch();
         },
-        logGetpzemt() {
-            const inputdatat = document.getElementById('pzemt')
-            const notfound = document.getElementById('notfoundt')
-            const data = this.getpzemt.data
-            inputdatat.innerHTML = ''
-            if (data.length > 0) {
-                notfound.classList.add('hidden')
-                const pzemtdata = []
-                data.forEach(data => {
-
-                    const timestamp = data.timestamp;
-                    if (!pzemtdata.includes(timestamp)) {
-                        pzemtdata.push(timestamp);
-                        const tr = document.createElement('tr');
-                        tr.classList.add('bg-white', 'text-gray-900', 'text-center', 'dark:bg-gray-800');
-                        tr.innerHTML +=
-                            `<td
-                                    class="px-6 py-4 ">
-                                    ${data.tegangan}
-                                </td>
-                                <td class="px-6 py-4">
-                                    ${data.arus}
-                                </td>
-                                <td class="px-6 py-4 font-bold text-green-600">
-                                    ${data.energi}
-                                </td>
-                                <td class="px-6 py-4">
-                                    ${data.frekuensi}
-                                </td>
-                            `
-                        inputdatat.appendChild(tr);
-                    }
-                });
-            }
+        async pzemtfetch() {
+            this.pzemtlength = this.getpzemt.data.length;
         }
     }
-
 }
 </script>
-
-<template>
-    <tbody id="pzemt">
-
-    </tbody>
-</template>
