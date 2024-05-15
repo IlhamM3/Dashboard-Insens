@@ -10,7 +10,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import ProximityView from '@/views/ProximityView.vue'
 import HistoriView from '@/views/HistoriView.vue'
 import PzemView from '@/views/PzemView.vue'
-
+// import Register from '@/components/Register.vue'
 import { d$auth } from '@/stores/auth'
 import { getCookies } from '@/plugins/cookies'
 
@@ -28,9 +28,9 @@ const router = createRouter({
       component: LoginView
     },
     // {
-    //   path: '/konfigurasi',
-    //   name: 'konfigurasi',
-    //   component: Konfigurasiview
+    //   path: '/Register',
+    //   name: 'Register',
+    //   component: Register
     // },
     // {
     //   path: '/konfigurasi/wifi',

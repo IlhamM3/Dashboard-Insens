@@ -16,19 +16,20 @@
                     </button>
                     <img class="hidden mr-3 w-44 md:mr-20 sm:block" src="./icons/logocomplate.png" alt="logo">
                 </div>
-                <div class="flex items-center ">
+                <div class="flex items-center">
                     <div class="w-full md:block md:w-auto" id="navbar-default">
                         <ul
                             class="grid items-center grid-cols-2 p-4 font-medium bg-gray-100 border border-gray-100 rounded-lg sm:flex gap-x-5 md:p-0 md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-100 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <li class="hidden md:block" >
-                                <h3>Sistem monitoring sensor di <span id="merek" class="font-bold uppercase"></span></h3>
+                            <li class="hidden md:block">
+                                <h3>Sistem monitoring sensor di <span class="font-bold uppercase">{{ Merek }}</span>
+                                </h3>
                             </li>
                             <li>
-                                <h3 id="tanggal"></h3>
+                                <h3>{{ tanggal }}</h3>
                             </li>
                             <li>
-                                <h3 id="waktu"
-                                    class="p-1 font-medium text-white bg-blue-600 rounded-md shadow shadow-md"></h3>
+                                <h3 class="p-1 font-medium text-white bg-blue-600 rounded-md shadow shadow-md">{{ waktu
+                                    }}</h3>
                             </li>
                         </ul>
                     </div>
@@ -37,7 +38,7 @@
         </div>
     </nav>
 
-    <aside id="sidebar"
+    <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-gray-100 border-r border-gray-200 pt-36 sm:pt-24 md:pt-20 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
@@ -75,83 +76,84 @@
         </div>
     </aside>
 </template>
-
 <script>
-import { RouterLink } from 'vue-router'
-import { mapActions, mapState } from 'pinia'
-import { dataliststore } from '@/stores/data'
+import { RouterLink } from 'vue-router';
+import { mapActions, mapState } from 'pinia';
+import { dataliststore } from '@/stores/data';
 import { d$auth } from '@/stores/auth';
+import { onMounted } from 'vue';
+import { initFlowbite } from 'flowbite';
+
 export default {
-    components:{
-        RouterLink
+    data() {
+        return {
+            Merek: '',
+            tanggal: '',
+            waktu: '',
+        };
+    },
+    components: {
+        RouterLink,
     },
     computed: {
         ...mapState(dataliststore, ['datamesin']),
-        getmerekmesin(){
-            return this.datamesin.data.map(item=>({
-                merek: item.merek_mesin
-            }));
-        }
     },
     methods: {
         ...mapActions(d$auth, ['a$logout']),
         ...mapActions(dataliststore, ['a$mesin']),
+        getmerekmesin(data) {
+            return data.map(item => ({
+                merek: item.merek_mesin,
+            }));
+        },
         async logout() {
             try {
-                await this.a$logout(),
-                    await this.$router.replace({
-                        name: 'login'
-                    });
-                    window.location.reload();
+                await this.a$logout();
+                await this.$router.replace({
+                    name: 'login',
+                });
+                window.location.reload();
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         },
-
-    },
-    props: {
-        isactive: Boolean,
-        isactiveprox: Boolean,
-        isactivepzem: Boolean,
-        isactivehis: Boolean
-    },
-    async mounted() {
-        await this.a$mesin();
-        const merek = document.getElementById('merek');
-        const data = this.datamesin.data;
-        data.forEach(data => {
-            merek.innerText = data.merek_mesin
-        });
-        //nav indikator
-        const opensidebar = document.getElementById('buttonnavbar');
-        const targetsidebar = document.getElementById('sidebar');
-        opensidebar.addEventListener('click', (event) => {
-            event.preventDefault();
-            targetsidebar.classList.toggle('translate-x-0')
-        });
-
-        function updateTime() {
+        updateTime() {
             const date = new Date();
-            const waktu = padZero(date.getHours()) + ':' + padZero(date.getMinutes()) + ':' + padZero(date.getSeconds());
-            document.getElementById('waktu').innerHTML = waktu;
-        }
-
-        function updateDate() {
+            const waktu = this.padZero(date.getHours()) + ':' + this.padZero(date.getMinutes()) + ':' + this.padZero(date.getSeconds());
+            this.waktu = waktu;
+        },
+        updateDate() {
             const date = new Date();
             const options = {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
             };
             const tanggal = date.toLocaleDateString('id-ID', options);
-            document.getElementById('tanggal').innerHTML = tanggal;
+            this.tanggal = tanggal;
+        },
+        padZero(number) {
+            return (number < 10 ? '0' : '') + number;
+        },
+    },
+    props: {
+        isactive: Boolean,
+        isactiveprox: Boolean,
+        isactivepzem: Boolean,
+        isactivehis: Boolean,
+    },
+    async mounted() {
+        await this.a$mesin();
+        const data = this.datamesin.data;
+        const merekMesinArray = this.getmerekmesin(data);
+        if (merekMesinArray.length > 0) {
+            this.Merek = merekMesinArray[0].merek;
         }
 
-        function padZero(number) {
-            return (number < 10 ? '0' : '') + number;
-        }
-        updateTime();
-        updateDate();
-        setInterval(updateTime, 1000);
-        setInterval(updateDate, 3600000);
-    }
-}
+        this.updateTime();
+        this.updateDate();
+        setInterval(this.updateTime, 1000);
+        setInterval(this.updateDate, 3600000);
+
+        initFlowbite();
+    },
+};
 </script>

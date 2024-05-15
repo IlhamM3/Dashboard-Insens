@@ -10,18 +10,19 @@ export default {
     },
     data() {
         return {
-            valueDate: this.initDate
+            valueDate: this.initDate,
+            qty_product: ''
         }
     },
     computed: {
-        ...mapState(dataliststore, ['dataHistoriproxi1']),
+        ...mapState(dataliststore, ['dataHistoriproxi1', 'datamesin']),
         cycleHistory() {
             if (!this.dataHistoriproxi1.data || !this.dataHistoriproxi1.data.length) {
                 return [{ cycle: 0, produk: 0 }];
             }
             return this.dataHistoriproxi1.data.map(item => ({
                 cycle: item.cycle,
-                produk: item.cycle * 4  
+                produk: item.cycle * this.qty_product
             }));
         },
         isDataEmpty() {
@@ -35,13 +36,27 @@ export default {
         },
     },
     methods: {
-        ...mapActions(dataliststore, ['a$historiprox1']),
+        ...mapActions(dataliststore, ['a$historiprox1', 'a$mesin']),
+        getqtymesin(data) {
+            return data.map(item => ({
+                qty_product: item.qty_product,
+            }));
+        },
+        async fetchqtymesin() {
+            await this.a$mesin();
+            const data = this.datamesin.data;
+            const qtyMesinArray = this.getqtymesin(data);
+            if (qtyMesinArray.length > 0) {
+                this.qty_product = qtyMesinArray[0].qty_product;
+            }
+        },
         async fetchHistoriProxiOne() {
             await this.a$historiprox1(this.valueDate);
         }
     },
     async mounted() {
         this.fetchHistoriProxiOne();
+        await this.fetchqtymesin();
     }
 }
 </script>
@@ -58,7 +73,7 @@ export default {
                     <th scope="col" class="px-3 py-3">Jam</th>
                 </tr>
             </thead>
-            <tableprox :initDate="valueDate"/>
+            <tableprox :initDate="valueDate" />
         </table>
     </div>
     <footer class="fixed bottom-2 md:w-[550px] lg:w-[1022px] bg-white rounded-lg shadow dark:bg-gray-800">

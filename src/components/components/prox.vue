@@ -35,7 +35,8 @@
               </th>
               <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcycle">{{ data.cycle }}</td>
               <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">Jumlah Produk:</td>
-              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">{{ data.cycle * 4 }}</td>
+              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">{{ data.cycle * qty_product
+                }}</td>
             </tr>
           </tbody>
         </table>
@@ -53,7 +54,8 @@ import { mapState, mapActions } from 'pinia'
 export default {
   data() {
     return {
-      lengthprox1: ''
+      lengthprox1: '',
+      qty_product: ''
     }
   },
   components: {
@@ -61,14 +63,28 @@ export default {
     baterai
   },
   computed: {
-    ...mapState(dataliststore, ['getproxi1']),
+    ...mapState(dataliststore, ['getproxi1', 'datamesin']),
   },
   async mounted() {
     await this.fetchtabproxi();
+    await this.fetchqtymesin();
     setInterval(this.fetchtabproxi, 5000)
   },
   methods: {
-    ...mapActions(dataliststore, ['a$proxi1']),
+    ...mapActions(dataliststore, ['a$proxi1', 'a$mesin']),
+    getqtymesin(data) {
+      return data.map(item => ({
+        qty_product: item.qty_product,
+      }));
+    },
+    async fetchqtymesin() {
+      await this.a$mesin();
+      const data = this.datamesin.data;
+      const qtyMesinArray = this.getqtymesin(data);
+      if (qtyMesinArray.length > 0) {
+        this.qty_product = qtyMesinArray[0].qty_product;
+      }
+    },
     async fetchtabproxi() {
       await this.a$proxi1()
       this.fetchproxi1();
