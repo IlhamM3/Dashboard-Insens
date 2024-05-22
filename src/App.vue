@@ -1,6 +1,7 @@
 <script>
 import { RouterView } from 'vue-router'
 import intervaalConfig from '@/service/interval.js'
+import { getCookies } from './plugins/cookies';
 
 export default {
   components: {
@@ -13,9 +14,12 @@ export default {
     },
   },
   async mounted() {
-    this.intervalId = setInterval(() => {
-      this.intervalSetting();
-    }, 1000);
+    const token = getCookies('CERT');
+    if (token) {
+      this.intervalId = setInterval(() => {
+        this.intervalSetting();
+      }, 1000);
+    }
   },
   beforeDestroy() {
     clearInterval(this.intervalId);
