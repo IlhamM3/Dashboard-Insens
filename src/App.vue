@@ -1,9 +1,15 @@
 <script>
-import { RouterView } from 'vue-router'
-import intervaalConfig from '@/service/interval.js'
+import { RouterView } from 'vue-router';
+import intervaalConfig from '@/service/interval.js';
 import { getCookies } from './plugins/cookies';
 
 export default {
+  data() {
+    return {
+      token: '',
+      tokenCheckIntervalId: null
+    };
+  },
   components: {
     RouterView,
   },
@@ -14,17 +20,26 @@ export default {
     },
   },
   async mounted() {
-    const token = getCookies('CERT');
-    if (token) {
-      this.intervalId = setInterval(() => {
-        this.intervalSetting();
-      }, 1000);
-    }
+    // Set an interval to check for the token every 2 seconds
+    this.tokenCheckIntervalId = setInterval(() => {
+      const datatoken = getCookies('CERT');
+      if (datatoken) {
+        this.token = datatoken;
+
+        clearInterval(this.tokenCheckIntervalId);
+        setInterval(() => {
+          this.intervalSetting();
+        }, 1000);
+      }
+    }, 2000);
   },
   beforeDestroy() {
-    clearInterval(this.intervalId);
-  }
-}
+    // Clear both intervals when the component is destroyed
+    if (this.tokenCheckIntervalId) {
+      clearInterval(this.tokenCheckIntervalId);
+    }
+  },
+};
 </script>
 
 <template>
