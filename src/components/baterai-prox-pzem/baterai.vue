@@ -1,5 +1,6 @@
 <template>
-    <h3 v-if="baterai === 'Baterai is off'" class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
+    <h3 v-if="baterai === 'Baterai is off'"
+        class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
         {{ infobateraiText }}
     </h3>
     <div v-else class=" p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md">
@@ -15,7 +16,7 @@ export default {
     data() {
         return {
             infobateraiText: '',
-            baterai:''
+            baterai: ''
         }
     },
     computed: {
@@ -48,9 +49,6 @@ export default {
     },
     async mounted() {
         await this.bateraifetch();
-        setInterval(async () => {
-            await this.bateraifetch();
-        }, 5000);
     }
 }
 </script>

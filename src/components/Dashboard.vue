@@ -19,8 +19,7 @@
                             <td colspan="3" class="p-2 font-semibold text-center bg-white">Tidak ada data yang
                                 ditemukan.</td>
                         </tr>
-                        <tr v-else v-for="(data, index) in getproxi1.data" :key="index"
-                            class="p-4 font-semibold bg-white">
+                        <tr v-else v-for="data in cycle" :key="data.cycle" class="p-4 font-semibold bg-white">
                             <td class="px-3 py-4">{{ data.cycle }}</td>
                             <td class="px-3 py-4">{{ data.cycle * qty_product }}</td>
                             <td class="px-3 py-4">{{ timejakarta(data.timestamp) }}</td>
@@ -53,12 +52,14 @@
                                 </tr>
                             </thead>
                             <tbody id="pzemr1">
-                                <tr v-if="lengthR === 0">
-                                    <td colspan="4" class="p-2 font-semibold text-center bg-white">Tidak ada data yang
-                                        ditemukan.</td>
+                                <tr v-if="lengthR === 0"
+                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="5" class="px-12 py-4">
+                                        Belum ada produksi untuk hari ini
+                                    </td>
                                 </tr>
-                                <tr v-else v-for="(data, index) in getpzemr1.data" :key="index"
-                                    class="p-4 font-semibold bg-white">
+                                <tr v-else v-for="data in Pzemr" :key="data.id"
+                                    class="bg-white text-gray-900 text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
                                     <td class="px-6 py-4">{{ data.tegangan }}</td>
                                     <td class="px-6 py-4">{{ data.arus }}</td>
                                     <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
@@ -82,12 +83,14 @@
                                 </tr>
                             </thead>
                             <tbody id="pzems1">
-                                <tr v-if="lengthS === 0">
-                                    <td colspan="4" class="p-2 font-semibold text-center bg-white">Tidak ada data yang
-                                        ditemukan.</td>
+                                <tr v-if="lengthS === 0"
+                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="5" class="px-12 py-4">
+                                        Belum ada produksi untuk hari ini
+                                    </td>
                                 </tr>
-                                <tr v-else v-for="(data, index) in getpzems1.data" :key="index"
-                                    class="p-4 font-semibold bg-white">
+                                <tr v-else v-for="data in Pzems" :key="data.id"
+                                    class="bg-white text-gray-900 text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
                                     <td class="px-6 py-4">{{ data.tegangan }}</td>
                                     <td class="px-6 py-4">{{ data.arus }}</td>
                                     <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
@@ -111,12 +114,13 @@
                                 </tr>
                             </thead>
                             <tbody id="pzemt1">
-                                <tr v-if="lengthT === 0">
-                                    <td colspan="4" class="p-2 font-semibold text-center bg-white">Tidak ada data yang
-                                        ditemukan.</td>
+                                <tr v-if="lengthT === 0"
+                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="5" class="px-12 py-4">
+                                        Belum ada produksi untuk hari ini
+                                    </td>
                                 </tr>
-                                <tr v-else v-for="(data, index) in getpzemt1.data" :key="index"
-                                    class="p-4 font-semibold bg-white">
+                                <tr v-else v-for="data in Pzemt" :key="data.id" class="p-4 font-semibold bg-white">
                                     <td class="px-6 py-4">{{ data.tegangan }}</td>
                                     <td class="px-6 py-4">{{ data.arus }}</td>
                                     <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
@@ -134,7 +138,7 @@
 <script>
 import { dataliststore } from '@/stores/data';
 import { mapState, mapActions } from 'pinia';
-import baterai from '@/components/components/baterai.vue';
+import baterai from '@/components/baterai-prox-pzem/baterai.vue';
 
 export default {
     components: { baterai },
@@ -149,15 +153,52 @@ export default {
         };
     },
     computed: {
-        ...mapState(dataliststore, ['getproxi1', 'getpzemr1', 'getpzems1', 'getpzemt1', 'datamesin'])
+        ...mapState(dataliststore, ['getproxi', 'getpzemr', 'getpzems', 'getpzemt', 'datamesin']),
+        cycle() {
+            const firstItem = this.getproxi.data[0];
+            return [{
+                cycle: firstItem.cycle,
+                produk: firstItem.cycle * this.qty_product,
+                timestamp: firstItem.timestamp
+            }];
+        },
+        Pzemr() {
+            const firstItem = this.getpzemr.data[0];
+            return [{
+                id: firstItem.pzem_id,
+                tegangan: firstItem.tegangan,
+                arus: firstItem.arus,
+                energi: firstItem.energi,
+                frekuensi: firstItem.frekuensi
+            }];
+        },
+        Pzems() {
+            const firstItem = this.getpzems.data[0];
+            return [{
+                id: firstItem.pzem_id,
+                tegangan: firstItem.tegangan,
+                arus: firstItem.arus,
+                energi: firstItem.energi,
+                frekuensi: firstItem.frekuensi
+            }];
+        },
+        Pzemt() {
+            const firstItem = this.getpzemt.data[0];
+            return [{
+                id: firstItem.pzem_id,
+                tegangan: firstItem.tegangan,
+                arus: firstItem.arus,
+                energi: firstItem.energi,
+                frekuensi: firstItem.frekuensi
+            }];
+        },
     },
     async mounted() {
         await this.fetchdash();
         await this.fetchqtymesin();
-        setInterval(this.fetchdash, 5000);
     },
     methods: {
-        ...mapActions(dataliststore, ['a$pzemr1', 'a$pzems1', 'a$pzemt1', 'a$proxi1', 'a$mesin']),
+        ...mapActions(dataliststore, ['a$pzemr', 'a$pzems', 'a$pzemt', 'a$proxi', 'a$mesin']),
         getqtymesin(data) {
             return data.map(item => ({
                 qty_product: item.qty_product,
@@ -174,10 +215,10 @@ export default {
         async fetchdash() {
             try {
                 await Promise.all([
-                    this.a$pzemr1(),
-                    this.a$pzems1(),
-                    this.a$pzemt1(),
-                    this.a$proxi1()
+                    this.a$pzemr(),
+                    this.a$pzems(),
+                    this.a$pzemt(),
+                    this.a$proxi()
                 ]);
                 this.logGetdatadash();
             } catch (error) {
@@ -185,13 +226,13 @@ export default {
             }
         },
         logGetdatadash() {
-            this.lengthprox = this.getproxi1.data.length;
-            this.lengthR = this.getpzemr1.data.length;
-            this.lengthS = this.getpzems1.data.length;
-            this.lengthT = this.getpzemt1.data.length;
-            const messager = this.getpzemr1.message;
-            const messages = this.getpzems1.message;
-            const messaget = this.getpzemt1.message;
+            this.lengthprox = this.getproxi.data.length;
+            this.lengthR = this.getpzemr.data.length;
+            this.lengthS = this.getpzems.data.length;
+            this.lengthT = this.getpzemt.data.length;
+            const messager = this.getpzemr.message;
+            const messages = this.getpzems.message;
+            const messaget = this.getpzemt.message;
 
             if (messager === 'Alat: ON' || messages === 'Alat: ON' || messaget === 'Alat: ON') {
                 this.selectedMessage = 'Alat: ON';

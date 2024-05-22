@@ -81,8 +81,8 @@ import { RouterLink } from 'vue-router';
 import { mapActions, mapState } from 'pinia';
 import { dataliststore } from '@/stores/data';
 import { d$auth } from '@/stores/auth';
-import { onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
+import intervaalConfig from '@/service/interval.js'
 
 export default {
     data() {
@@ -99,8 +99,12 @@ export default {
         ...mapState(dataliststore, ['datamesin']),
     },
     methods: {
+        ...intervaalConfig(this).actions,
         ...mapActions(d$auth, ['a$logout']),
         ...mapActions(dataliststore, ['a$mesin']),
+        async intervalSetting() {
+            await intervaalConfig(this).intervalSetting();
+        },
         getmerekmesin(data) {
             return data.map(item => ({
                 merek: item.merek_mesin,
@@ -154,6 +158,13 @@ export default {
         setInterval(this.updateDate, 3600000);
 
         initFlowbite();
+
+        this.intervalId = setInterval(() => {
+            this.intervalSetting();
+        }, 1000);
     },
+    beforeDestroy() {
+        clearInterval(this.intervalId);
+    }
 };
 </script>

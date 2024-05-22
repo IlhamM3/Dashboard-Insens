@@ -25,7 +25,11 @@ export const dataliststore = defineStore({
         dataHistoriproxi1: [],
         dataHistoripzemr: [],
         dataHistoripzems: [],
-        dataHistoripzemt: []
+        dataHistoripzemt: [],
+
+        //message delete
+        delmessageprox: [],
+        delmessagepzemr: [],
     }),
     actions: {
         async a$proxi() {
@@ -44,6 +48,22 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
+        async del$proxi() {
+            try {
+                const { data } = await s$data.deleteproximity();
+                this.delmessageprox = data.message;
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$proxibyid(id) {
+            try {
+                const { data } = await s$data.deleteproximitybyid(id);
+                this.delmessageprox = data.message;
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
 
         async a$pzemr() {
             try {
@@ -57,7 +77,23 @@ export const dataliststore = defineStore({
             try {
                 const { data } = await s$data.pzemR1()
                 this.setPzemR1(data)
-                
+
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$pzemr() {
+            try {
+                const { data } = await s$data.deletepzemR();
+                this.delmessagepzemr = data.message;
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$pzemrbyid(id) {
+            try {
+                const { data } = await s$data.deletepzemRbyid(id);
+                this.delmessagepzemr = data.message;
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -79,11 +115,50 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
+        async del$pzems() {
+            try {
+                await s$data.deletepzemS();
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$pzemsbyid(id) {
+            try {
+                const { data } = await s$data.deletepzemSbyid(id);
+                this.delmessagepzemr = data.message;
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
 
         async a$pzemt() {
             try {
                 const { data } = await s$data.pzemT()
                 this.setPzemT(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async a$pzemt1() {
+            try {
+                const { data } = await s$data.pzemT1()
+                this.setPzemT1(data)
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$pzemt() {
+            try {
+                const { data } = await s$data.deletepzemT();
+                this.delmessagepzemr = data.message;
+            } catch ({ message, error }) {
+                throw message ?? error
+            }
+        },
+        async del$pzemtbyid(id) {
+            try {
+                const { data } = await s$data.deletepzemTbyid(id);
+                this.delmessagepzemr = data.message;
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -232,5 +307,10 @@ export const dataliststore = defineStore({
         gethistoripzemr: (state) => state.dataHistoripzemr,
         gethistoripzems: (state) => state.dataHistoripzems,
         gethistoripzemt: (state) => state.dataHistoripzemt,
+
+        //get response message
+        getdelmessageprox: (state) => state.delmessageprox,
+        getdelmessagepzemr: (state) => state.delmessagepzemr,
+
     }
 });

@@ -1,5 +1,5 @@
 <script setup>
-import Proxy from './components/prox.vue';
+import Proxy from './baterai-prox-pzem/prox.vue';
 </script>
 
 <template>

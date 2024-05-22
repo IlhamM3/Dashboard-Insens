@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import prox from '@/components/history/proximity/prox.vue'
-import pzem from '@/components/history/pzem/pzem.vue'
+import prox from '@/components/comp-history/proxhistory.vue'
+import pzem from '@/components/comp-history/pzemhistory.vue'
 export default {
     components: {
         prox,
