@@ -82,7 +82,7 @@ import { mapActions, mapState } from 'pinia';
 import { dataliststore } from '@/stores/data';
 import { d$auth } from '@/stores/auth';
 import { initFlowbite } from 'flowbite';
-import intervaalConfig from '@/service/interval.js'
+// import intervaalConfig from '@/service/interval.js'
 
 export default {
     data() {
@@ -99,12 +99,12 @@ export default {
         ...mapState(dataliststore, ['datamesin']),
     },
     methods: {
-        ...intervaalConfig(this).actions,
+        // ...intervaalConfig(this).actions,
         ...mapActions(d$auth, ['a$logout']),
         ...mapActions(dataliststore, ['a$mesin']),
-        async intervalSetting() {
-            await intervaalConfig(this).intervalSetting();
-        },
+        // async intervalSetting() {
+        //     await intervaalConfig(this).intervalSetting();
+        // },
         getmerekmesin(data) {
             return data.map(item => ({
                 merek: item.merek_mesin,
@@ -159,12 +159,12 @@ export default {
 
         initFlowbite();
 
-        this.intervalId = setInterval(() => {
-            this.intervalSetting();
-        }, 1000);
-    },
-    beforeDestroy() {
-        clearInterval(this.intervalId);
+        // this.intervalId = setInterval(() => {
+        //     this.intervalSetting();
+        // }, 1000);
     }
+    // beforeDestroy() {
+    //     clearInterval(this.intervalId);
+    // }
 };
 </script>
