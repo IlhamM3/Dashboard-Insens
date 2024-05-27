@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             valueDate: '',
-            selectedView: 'proximity'
+            selectedView: 'proximity',
         }
     },
 }

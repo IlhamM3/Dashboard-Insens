@@ -22,11 +22,24 @@
                         <tr v-else v-for="data in cycle" :key="data.cycle" class="p-4 font-semibold bg-white">
                             <td class="px-3 py-4">{{ data.cycle }}</td>
                             <td class="px-3 py-4">{{ data.cycle * qty_product }}</td>
-                            <td class="px-3 py-4">{{ timejakarta(data.timestamp) }}</td>
+                            <td class="px-3 py-4">{{ formattime(data.timestamp) }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <form method="post" @submit.prevent="() => sendqty()" @reset="() => resetForm()">
+                <div class="my-5">
+                    <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ubah
+                        QTY Per Cycle</label>
+                    <div class="flex w-60 justify-center items-center">
+                        <input type="text" id="base-input" :placeholder="`QTY Per Cycle: ${qty_product}`"
+                            v-model="input.qty_product" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <button type="submit"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg ml-2 text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ganti</button>
+                    </div>
+                </div>
+            </form>
             <div class="flex items-center justify-between my-6">
                 <h1 class="text-2xl font-medium">Pzem</h1>
                 <h3 v-if="selectedMessage === 'Alat: OFF'"
@@ -140,6 +153,10 @@ import { dataliststore } from '@/stores/data';
 import { mapState, mapActions } from 'pinia';
 import baterai from '@/components/baterai-prox-pzem/baterai.vue';
 
+const qtyinput = {
+    qty_product: ''
+}
+
 export default {
     components: { baterai },
     data() {
@@ -149,7 +166,8 @@ export default {
             lengthR: 0,
             lengthS: 0,
             lengthT: 0,
-            qty_product: ''
+            qty_product: '',
+            input: { ...qtyinput }
         };
     },
     computed: {
@@ -198,7 +216,19 @@ export default {
         await this.fetchqtymesin();
     },
     methods: {
-        ...mapActions(dataliststore, ['a$pzemr', 'a$pzems', 'a$pzemt', 'a$proxi', 'a$mesin']),
+        ...mapActions(dataliststore, ['a$pzemr', 'a$pzems', 'a$pzemt', 'a$proxi', 'a$mesin', 'a$qtyproduct']),
+        resetForm() {
+            Object.assign(this.input, qtyinput)
+        },
+        async sendqty() {
+            try {
+                await this.a$qtyproduct(this.input)
+                this.resetForm()
+                await this.fetchqtymesin();
+            } catch (error) {
+                console.error(error)
+            }
+        },
         getqtymesin(data) {
             return data.map(item => ({
                 qty_product: item.qty_product,
@@ -242,14 +272,12 @@ export default {
                 this.selectedMessage = '';
             }
         },
-        timejakarta(datastamp) {
-            return new Date(datastamp).toLocaleTimeString('id-ID', {
-                timeZone: 'Asia/Jakarta',
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
+        formattime(datastamp) {
+            const dateObj = new Date(datastamp);
+            const hours = dateObj.getHours();
+            const minutes = dateObj.getMinutes();
+            const seconds = dateObj.getSeconds();
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
     }
 };

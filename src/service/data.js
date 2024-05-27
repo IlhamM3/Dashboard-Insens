@@ -24,7 +24,7 @@ const pzemT1 = () => baseApi.get(`${sideApi}/pzemt1`)
 
 const baterai = () => baseApi.get(`${sideApi}/baterai`)
 const mesin = () => baseApi.get(`${sideApi}/mesin`)
-const qtyproduct = () => baseApi.put(`${sideApi}/mesin`)
+const qtyproduct = (body) => baseApi.put(`${sideApi}/mesin`, body)
 
 // Fungsi untuk memanggil API dengan tanggal yang dipilih
 const historipzemr = (selectDate) => baseApi.get(`${sideApi}/pzemrHistory?startDate=${selectDate}&endDate=${selectDate}`);

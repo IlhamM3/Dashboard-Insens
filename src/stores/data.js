@@ -6,23 +6,17 @@ export const dataliststore = defineStore({
     id: 'data',
     state: () => ({
         dataproxi: [],
-        dataproxi1: [],
 
         datapzemr: [],
-        datapzemr1: [],
 
         datapzems: [],
-        datapzems1: [],
 
         datapzemt: [],
-        datapzemt1: [],
 
         databaterai: [],
-        datamesin: [],
 
         //History Data
         dataHistoriproxi: [],
-        dataHistoriproxi1: [],
         dataHistoripzemr: [],
         dataHistoripzems: [],
         dataHistoripzemt: [],
@@ -30,20 +24,13 @@ export const dataliststore = defineStore({
         //message delete
         delmessageprox: [],
         delmessagepzemr: [],
+
     }),
     actions: {
         async a$proxi() {
             try {
                 const { data } = await s$data.proximity()
                 this.setProxi(data)
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
-        async a$proxi1() {
-            try {
-                const { data } = await s$data.proximity1()
-                this.setProxi1(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -73,15 +60,6 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
-        async a$pzemr1() {
-            try {
-                const { data } = await s$data.pzemR1()
-                this.setPzemR1(data)
-
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
         async del$pzemr() {
             try {
                 const { data } = await s$data.deletepzemR();
@@ -103,14 +81,6 @@ export const dataliststore = defineStore({
             try {
                 const { data } = await s$data.pzemS()
                 this.setPzemS(data)
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
-        async a$pzems1() {
-            try {
-                const { data } = await s$data.pzemS1()
-                this.setPzemS1(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -139,14 +109,6 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
-        async a$pzemt1() {
-            try {
-                const { data } = await s$data.pzemT1()
-                this.setPzemT1(data)
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
         async del$pzemt() {
             try {
                 const { data } = await s$data.deletepzemT();
@@ -159,14 +121,6 @@ export const dataliststore = defineStore({
             try {
                 const { data } = await s$data.deletepzemTbyid(id);
                 this.delmessagepzemr = data.message;
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
-        async a$pzemt1() {
-            try {
-                const { data } = await s$data.pzemT1()
-                this.setPzemT1(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -188,20 +142,19 @@ export const dataliststore = defineStore({
                 throw message ?? error
             }
         },
+        async a$qtyproduct(body) {
+            try {
+                await s$data.qtyproduct(body);
+            } catch ({ error, message }) {
+                throw message ?? error
+            }
+        },
 
         // History API
         async a$historiprox(date) {
             try {
                 const { data } = await s$data.historiprox(date)
                 this.sethistoriprox(data)
-            } catch ({ message, error }) {
-                throw message ?? error
-            }
-        },
-        async a$historiprox1(date) {
-            try {
-                const { data } = await s$data.historiprox1(date)
-                this.sethistoriprox1(data)
             } catch ({ message, error }) {
                 throw message ?? error
             }
@@ -234,9 +187,6 @@ export const dataliststore = defineStore({
         sethistoriprox(data) {
             this.dataHistoriproxi = data
         },
-        sethistoriprox1(data) {
-            this.dataHistoriproxi1 = data
-        },
         sethistoripzemr(data) {
             this.dataHistoripzemr = data
         },
@@ -252,29 +202,17 @@ export const dataliststore = defineStore({
         setProxi(data) {
             this.dataproxi = data
         },
-        setProxi1(data) {
-            this.dataproxi1 = data
-        },
 
         setPzemR(data) {
             this.datapzemr = data
-        },
-        setPzemR1(data) {
-            this.datapzemr1 = data
         },
 
         setPzemS(data) {
             this.datapzems = data
         },
-        setPzemS1(data) {
-            this.datapzems1 = data
-        },
 
         setPzemT(data) {
             this.datapzemt = data
-        },
-        setPzemT1(data) {
-            this.datapzemt1 = data
         },
         setBaterai(data) {
             this.databaterai = data
@@ -286,16 +224,12 @@ export const dataliststore = defineStore({
     getters: {
         // Getter yang sesuai dengan state
         getproxi: (state) => state.dataproxi,
-        getproxi1: (state) => state.dataproxi1,
 
         getpzemr: (state) => state.datapzemr,
-        getpzemr1: (state) => state.datapzemr1,
 
         getpzems: (state) => state.datapzems,
-        getpzems1: (state) => state.datapzems1,
 
         getpzemt: (state) => state.datapzemt,
-        getpzemt1: (state) => state.datapzemt1,
 
         getbaterai: (state) => state.databaterai,
         getmesin: (state) => state.datamesin,
@@ -303,7 +237,6 @@ export const dataliststore = defineStore({
         // Getter history APi
 
         gethistoriprox: (state) => state.dataHistoriproxi,
-        gethistoriprox1: (state) => state.dataHistoriproxi1,
         gethistoripzemr: (state) => state.dataHistoripzemr,
         gethistoripzems: (state) => state.dataHistoripzems,
         gethistoripzemt: (state) => state.dataHistoripzemt,

@@ -74,12 +74,12 @@
               <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">Jumlah Produk:</td>
               <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">0</td>
             </tr>
-            <tr v-else class="bg-white dark:bg-gray-800">
+            <tr v-else v-for="data in getproxicycle" :key="data.cycle" class="bg-white dark:bg-gray-800">
               <th scope="row" class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">Jumlah Cycle:
               </th>
-              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcycle">{{ cycle }}</td>
+              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jcycle">{{ data.cycle }}</td>
               <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap">Jumlah Produk:</td>
-              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">{{ produk }}</td>
+              <td class="px-3 py-4 font-bold text-gray-900 whitespace-nowrap" id="jproduk">{{ data.produk }}</td>
             </tr>
           </tbody>
         </table>
@@ -132,8 +132,7 @@ export default {
       qtyproduct: '',
       messagedel: '',
       checkdel: false,
-      cycle: '',
-      produk: ''
+      cycle: ''
     }
   },
   components: {
@@ -149,14 +148,16 @@ export default {
     datanull() {
       return !this.getproxi.data || !this.getproxi.data.length;
     },
+    getproxicycle() {
+      const firstItem = this.getproxi.data[0];
+      return [{
+        cycle: firstItem.cycle,
+        produk: firstItem.cycle * this.qtyproduct,
+      }];
+    },
   },
   methods: {
     ...mapActions(dataliststore, ['a$proxi', 'a$mesin', 'del$proxi', 'del$proxibyid']),
-    getprox1(data) {
-      return data.map(item => ({
-        cycle: item.cycle,
-      }));
-    },
     async deleteproxbyid(id) {
       await this.del$proxibyid(id);
       const response = this.getdelmessageprox
@@ -199,12 +200,6 @@ export default {
     async fetchtabproxi() {
       await this.a$proxi();
       this.lengthprox = this.getproxi.data.length;
-      if (this.lengthprox >= 0) {
-        const dataprox = this.getproxi.data;
-        const dataprox1 = this.getprox1(dataprox);
-        this.cycle = dataprox1[0].cycle;
-
-      }
     },
     formatDate(timestamp, format) {
       const date = new Date(timestamp);
