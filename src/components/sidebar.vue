@@ -107,7 +107,7 @@ export default {
         // },
         getmerekmesin(data) {
             return data.map(item => ({
-                merek: item.merek_mesin,
+                merek: item.machineName,
             }));
         },
         async logout() {

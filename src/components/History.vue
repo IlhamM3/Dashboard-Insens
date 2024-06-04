@@ -38,10 +38,11 @@
 <script>
 import prox from '@/components/comp-history/proxhistory.vue'
 import pzem from '@/components/comp-history/pzemhistory.vue'
+
 export default {
     components: {
         prox,
-        pzem
+        pzem,
     },
     data() {
         return {
@@ -49,5 +50,13 @@ export default {
             selectedView: 'proximity',
         }
     },
+    mounted() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const datenow = `${year}-${month}-${day}`;
+        this.valueDate = datenow
+    }
 }
 </script>

@@ -17,14 +17,14 @@ const delCookies = (name) => {
 const certCookies = () => {
   const token = getCookies('CERT')
   if (token) {
-    const { username } = parseJwt(token)
-    if (!username) return delCookies('CERT')
+    const { n } = parseJwt(token)
+    if (!n) return delCookies('CERT')
     return {
-      username,
+      n,
     }
   }
   return {
-    username: undefined
+    n: undefined
   }
 }
 

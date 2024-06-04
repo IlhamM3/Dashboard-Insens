@@ -1,9 +1,9 @@
 <template>
-    <h3 v-if="baterai === 'Baterai is off'"
+    <h3 v-if="baterai === 'Battery is off'"
         class="p-1 px-2 font-medium text-white bg-gray-600 rounded-md shadow shadow-md">
         {{ infobateraiText }}
     </h3>
-    <div v-else class=" p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md">
+    <div v-else class="p-1 px-2 font-medium text-white bg-green-500 rounded-md shadow shadow-md ">
         {{ infobateraiText }}
     </div>
 </template>
@@ -20,23 +20,21 @@ export default {
         }
     },
     computed: {
-        ...mapState(dataliststore, {
-            getbaterai: state => state.getbaterai
-        })
+        ...mapState(dataliststore, ["getbaterai"])
     },
     methods: {
         ...mapActions(dataliststore, ['a$baterai']),
         async indikatorbaterai() {
             const data = this.getbaterai.data;
             this.baterai = data
-            if (data === 'Baterai is off') {
+            if (data === 'Battery is off') {
                 this.infobateraiText = 'Alat: Off';
             } else {
-                const timestamp = data.createdAt;
+                const timestamp = data.updatedAt;
                 if (!this.bateraiindikator || !this.bateraiindikator.includes(timestamp)) {
                     if (!this.bateraiindikator) this.bateraiindikator = [];
                     this.bateraiindikator.push(timestamp);
-                    const bateraipersen = data.indikator_baterai * 1;
+                    const bateraipersen = data[0].battery_indicator;
                     this.infobateraiText = `Baterai: ${bateraipersen}%`;
                 }
             }

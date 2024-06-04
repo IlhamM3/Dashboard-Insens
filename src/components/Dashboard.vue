@@ -15,28 +15,31 @@
                         </tr>
                     </thead>
                     <tbody id="cycledash">
-                        <tr v-if="lengthprox === 0">
+                        <tr v-if="infoprox === 'Proximity is off'">
                             <td colspan="3" class="p-2 font-semibold text-center bg-white">Tidak ada data yang
                                 ditemukan.</td>
                         </tr>
-                        <tr v-else v-for="data in cycle" :key="data.cycle" class="p-4 font-semibold bg-white">
-                            <td class="px-3 py-4">{{ data.cycle }}</td>
-                            <td class="px-3 py-4">{{ data.cycle * qty_product }}</td>
-                            <td class="px-3 py-4">{{ formattime(data.timestamp) }}</td>
+                        <tr v-else-if="getproxi.data && getproxi.data.length > 0" class="p-4 font-semibold bg-white">
+                            <td class="px-3 py-4">{{ getproxi.data[0].cycle }}</td>
+                            <td class="px-3 py-4">{{ getproxi.data[0].cycle * qty_product }}</td>
+                            <td class="px-3 py-4">{{ formattime(getproxi.data[0].updatedAt) }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <form method="post" @submit.prevent="() => sendqty()" @reset="() => resetForm()">
+            <form method="post" @submit.prevent="sendqty" @reset="resetForm">
                 <div class="my-5">
-                    <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ubah
-                        QTY Per Cycle</label>
-                    <div class="flex w-60 justify-center items-center">
+                    <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Ubah QTY Per Cycle
+                    </label>
+                    <div class="flex items-center justify-center w-60">
                         <input type="text" id="base-input" :placeholder="`QTY Per Cycle: ${qty_product}`"
-                            v-model="input.qty_product" required
+                            v-model="input.newQty" required
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg ml-2 text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ganti</button>
+                            class="px-3 py-2 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            Ganti
+                        </button>
                     </div>
                 </div>
             </form>
@@ -65,18 +68,18 @@
                                 </tr>
                             </thead>
                             <tbody id="pzemr1">
-                                <tr v-if="lengthR === 0"
-                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                    <td colspan="5" class="px-12 py-4">
+                                <tr v-if="infoR === 'PzemR is off'"
+                                    class="font-semibold text-center text-gray-900 bg-white whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="4" class="px-12 py-4">
                                         Belum ada produksi untuk hari ini
                                     </td>
                                 </tr>
-                                <tr v-else v-for="data in Pzemr" :key="data.id"
-                                    class="bg-white text-gray-900 text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                    <td class="px-6 py-4">{{ data.tegangan }}</td>
-                                    <td class="px-6 py-4">{{ data.arus }}</td>
-                                    <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
-                                    <td class="px-6 py-4">{{ data.frekuensi }}</td>
+                                <tr v-else-if="getpzemr.data && getpzemr.data.length > 0"
+                                    class="text-center text-gray-900 bg-white whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td class="px-6 py-4">{{ getpzemr.data[0].voltage }}</td>
+                                    <td class="px-6 py-4">{{ getpzemr.data[0].current }}</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">{{ getpzemr.data[0].energy }}</td>
+                                    <td class="px-6 py-4">{{ getpzemr.data[0].frequency }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,18 +99,18 @@
                                 </tr>
                             </thead>
                             <tbody id="pzems1">
-                                <tr v-if="lengthS === 0"
-                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                    <td colspan="5" class="px-12 py-4">
+                                <tr v-if="infoS === 'PzemS is off'"
+                                    class="font-semibold text-center text-gray-900 bg-white whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="4" class="px-12 py-4">
                                         Belum ada produksi untuk hari ini
                                     </td>
                                 </tr>
-                                <tr v-else v-for="data in Pzems" :key="data.id"
-                                    class="bg-white text-gray-900 text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                    <td class="px-6 py-4">{{ data.tegangan }}</td>
-                                    <td class="px-6 py-4">{{ data.arus }}</td>
-                                    <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
-                                    <td class="px-6 py-4">{{ data.frekuensi }}</td>
+                                <tr v-else-if="getpzems.data && getpzems.data.length > 0"
+                                    class="text-center text-gray-900 bg-white whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td class="px-6 py-4">{{ getpzems.data[0].voltage }}</td>
+                                    <td class="px-6 py-4">{{ getpzems.data[0].current }}</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">{{ getpzems.data[0].energy }}</td>
+                                    <td class="px-6 py-4">{{ getpzems.data[0].frequency }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -127,17 +130,18 @@
                                 </tr>
                             </thead>
                             <tbody id="pzemt1">
-                                <tr v-if="lengthT === 0"
-                                    class="bg-white text-gray-900  font-semibold text-center whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                    <td colspan="5" class="px-12 py-4">
+                                <tr v-if="infoT === 'PzemT is off'"
+                                    class="font-semibold text-center text-gray-900 bg-white whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <td colspan="4" class="px-12 py-4">
                                         Belum ada produksi untuk hari ini
                                     </td>
                                 </tr>
-                                <tr v-else v-for="data in Pzemt" :key="data.id" class="p-4 font-semibold bg-white">
-                                    <td class="px-6 py-4">{{ data.tegangan }}</td>
-                                    <td class="px-6 py-4">{{ data.arus }}</td>
-                                    <td class="px-6 py-4 font-bold text-green-600">{{ data.energi }}</td>
-                                    <td class="px-6 py-4">{{ data.frekuensi }}</td>
+                                <tr v-else-if="getpzemt.data && getpzemt.data.length > 0"
+                                    class="p-4 font-semibold bg-white">
+                                    <td class="px-6 py-4">{{ getpzemt.data[0].voltage }}</td>
+                                    <td class="px-6 py-4">{{ getpzemt.data[0].current }}</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">{{ getpzemt.data[0].energy }}</td>
+                                    <td class="px-6 py-4">{{ getpzemt.data[0].frequency }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -154,7 +158,7 @@ import { mapState, mapActions } from 'pinia';
 import baterai from '@/components/baterai-prox-pzem/baterai.vue';
 
 const qtyinput = {
-    qty_product: ''
+    newQty: ''
 }
 
 export default {
@@ -162,54 +166,16 @@ export default {
     data() {
         return {
             selectedMessage: '',
-            lengthprox: 0,
-            lengthR: 0,
-            lengthS: 0,
-            lengthT: 0,
+            infoprox: '',
+            infoR: '',
+            infoS: '',
+            infoT: '',
             qty_product: '',
             input: { ...qtyinput }
         };
     },
     computed: {
         ...mapState(dataliststore, ['getproxi', 'getpzemr', 'getpzems', 'getpzemt', 'datamesin']),
-        cycle() {
-            const firstItem = this.getproxi.data[0];
-            return [{
-                cycle: firstItem.cycle,
-                produk: firstItem.cycle * this.qty_product,
-                timestamp: firstItem.timestamp
-            }];
-        },
-        Pzemr() {
-            const firstItem = this.getpzemr.data[0];
-            return [{
-                id: firstItem.pzem_id,
-                tegangan: firstItem.tegangan,
-                arus: firstItem.arus,
-                energi: firstItem.energi,
-                frekuensi: firstItem.frekuensi
-            }];
-        },
-        Pzems() {
-            const firstItem = this.getpzems.data[0];
-            return [{
-                id: firstItem.pzem_id,
-                tegangan: firstItem.tegangan,
-                arus: firstItem.arus,
-                energi: firstItem.energi,
-                frekuensi: firstItem.frekuensi
-            }];
-        },
-        Pzemt() {
-            const firstItem = this.getpzemt.data[0];
-            return [{
-                id: firstItem.pzem_id,
-                tegangan: firstItem.tegangan,
-                arus: firstItem.arus,
-                energi: firstItem.energi,
-                frekuensi: firstItem.frekuensi
-            }];
-        },
     },
     async mounted() {
         await this.fetchdash();
@@ -218,15 +184,16 @@ export default {
     methods: {
         ...mapActions(dataliststore, ['a$pzemr', 'a$pzems', 'a$pzemt', 'a$proxi', 'a$mesin', 'a$qtyproduct']),
         resetForm() {
-            Object.assign(this.input, qtyinput)
+            Object.assign(this.input, qtyinput);
         },
         async sendqty() {
             try {
-                await this.a$qtyproduct(this.input)
-                this.resetForm()
+                await this.a$qtyproduct(this.input);
+                console.log(this.input)
+                this.resetForm();
                 await this.fetchqtymesin();
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         },
         getqtymesin(data) {
@@ -250,23 +217,25 @@ export default {
                     this.a$pzemt(),
                     this.a$proxi()
                 ]);
+                setInterval(() => {
+                }, 1000);
                 this.logGetdatadash();
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
             }
         },
         logGetdatadash() {
-            this.lengthprox = this.getproxi.data.length;
-            this.lengthR = this.getpzemr.data.length;
-            this.lengthS = this.getpzems.data.length;
-            this.lengthT = this.getpzemt.data.length;
+            this.infoprox = this.getproxi.data;
+            this.infoR = this.getpzemr.data;
+            this.infoS = this.getpzems.data;
+            this.infoT = this.getpzemt.data;
             const messager = this.getpzemr.message;
             const messages = this.getpzems.message;
             const messaget = this.getpzemt.message;
 
-            if (messager === 'Alat: ON' || messages === 'Alat: ON' || messaget === 'Alat: ON') {
+            if (messager === 'PzemR: ON' || messages === 'PzemS: ON' || messaget === 'PzemT: ON') {
                 this.selectedMessage = 'Alat: ON';
-            } else if (messager === 'Alat: OFF' && messages === 'Alat: OFF' && messaget === 'Alat: OFF') {
+            } else if (messager === 'PzemR: OFF' || messages === 'PzemS: OFF' || messaget === 'PzemT: OFF' || this.infoR === "PzemR is off" || this.infoS === "PzemS is off" || this.infoT === "PzemT is off") {
                 this.selectedMessage = 'Alat: OFF';
             } else {
                 this.selectedMessage = '';

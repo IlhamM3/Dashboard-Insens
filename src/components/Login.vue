@@ -4,7 +4,8 @@ import { mapActions, mapState } from 'pinia'
 
 const initialInput = {
     username: '',
-    password: ''
+    password: '',
+    mod: 'true'
 }
 
 export default {

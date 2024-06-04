@@ -12,8 +12,8 @@ export const d$auth = defineStore({
   actions: {
     async a$setUser() {
       try {
-        const { username } = certCookies()
-        this.username = username
+        const { n } = certCookies()
+        this.username = n
         return 'User Authenticated!'
       } catch ({ message }) {
         this.username = undefined
@@ -22,8 +22,11 @@ export const d$auth = defineStore({
     },
     async a$login(body) {
       try {
-        const { data } = await s$auth.login(body)
-        setCookies('CERT', data.token)
+        const response = await s$auth.login(body);
+        const { data } = response;
+        const token = data.data.token;
+        console.log(token)
+        setCookies('CERT', token)
         return true
       } catch ({ error, message }) {
         throw message ?? error

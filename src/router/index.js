@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 // import Konfigurasiview from '@/views/Konfigurasiview.vue'
-import ServerView from '@/views/ServerView.vue'
+// import ServerView from '@/views/ServerView.vue'
 // import wifiView from '@/views/WifiView.vue'
 
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -37,11 +37,11 @@ const router = createRouter({
     //   name: 'konfigurasiwifi',
     //   component: wifiView
     // },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: ServerView
-    },
+    // {
+    //   path: '/signup',
+    //   name: 'signup',
+    //   component: ServerView
+    // },
     {
       path: '/:catchAll(.*)',
       name: 'notfound',
